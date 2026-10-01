@@ -40,7 +40,7 @@ async function bootstrap() {
 
   // Hostinger provides PORT in production.
   // Local development falls back to 5001.
-  const port = Number(process.env.PORT) || 5001;
+  const port = Number(process.env.PORT) || 3000;
 
   await app.listen(port, '0.0.0.0');
 
