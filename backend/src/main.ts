@@ -10,9 +10,15 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  // Allow Next.js frontend
+  // Allow local development + production frontend
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+  ];
+
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -32,11 +38,13 @@ async function bootstrap() {
     }),
   );
 
+  // Hostinger provides PORT in production.
+  // Local development falls back to 5001.
   const port = Number(process.env.PORT) || 5001;
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`🚀 MOAS Tech API running on http://localhost:${port}/api`);
+  console.log(`�� MOAS Tech API running on port ${port}`);
 }
 
 bootstrap();
