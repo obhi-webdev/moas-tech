@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main>
@@ -39,7 +39,7 @@ export default function Home() {
         <RevealSection>
           <ProductSection
             title="Latest Products"
-            subtitle="Explore the latest products at MOAS Tech"
+            subtitle="Explore the latest products at VS Tech"
             query="sort=newest"
             viewAllHref="/shop?sort=newest"
           />

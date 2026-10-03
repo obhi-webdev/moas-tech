@@ -476,7 +476,7 @@ export default function AddProductPage() {
   return (
     <AdminLayout
       title="Add Product"
-      subtitle="Add a new product to MOAS Tech."
+      subtitle="Add a new product to VS Tech."
     >
       <div className="mx-auto max-w-5xl">
         {error && (

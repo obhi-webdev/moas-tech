@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export default function Footer() {
-  const phone = "01614106550";
-  const whatsapp = "8801614106550";
+  const phone = "01737092358";
+  const whatsapp = "8801737092358";
 
   return (
     <footer className="bg-[#071724] text-slate-300">
@@ -68,7 +68,7 @@ export default function Footer() {
                 href="/about"
                 className="transition hover:text-orange-400"
               >
-                About MOAS Tech
+                About VS Tech
               </Link>
 
               <Link
@@ -184,7 +184,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Shopping With MOAS Tech
+              Shopping With VS Tech
             </p>
 
             <div className="mt-2 flex flex-wrap gap-2">
@@ -215,12 +215,12 @@ export default function Footer() {
       <div className="border-t border-slate-800 bg-[#05121c]">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} MOAS Tech. All
+            © {new Date().getFullYear()} VS Tech. All
             rights reserved.
           </p>
 
           <p>
-            Powered by MOAS Tech
+            Powered by VS Tech
           </p>
         </div>
       </div>

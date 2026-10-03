@@ -464,8 +464,8 @@ function ShopContent() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main className="min-h-screen bg-[#f1f3f6]">
@@ -496,7 +496,7 @@ function ShopContent() {
 
           <section className="mb-5 rounded-lg border border-slate-200 bg-white px-5 py-5 shadow-sm md:px-6">
             <p className="text-sm font-bold uppercase tracking-wider text-orange-500">
-              MOAS Tech
+              VS Tech
             </p>
 
             <h1 className="mt-1 text-2xl font-bold text-slate-900 md:text-3xl">
@@ -506,7 +506,7 @@ function ShopContent() {
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
               Find laptops, computers,
               accessories and technology
-              products from MOAS Tech.
+              products from VS Tech.
             </p>
           </section>
 

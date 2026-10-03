@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
           </div>
 
           <h1 className="mt-5 text-2xl font-bold text-slate-900">
-            MOAS Tech Admin
+            VS Tech Admin
           </h1>
 
           <p className="mt-2 text-sm text-slate-500">
@@ -164,7 +164,7 @@ export default function AdminLoginPage() {
         </form>
 
         <p className="mt-7 text-center text-xs text-slate-400">
-          MOAS Tech Store Management
+          VS Tech Store Management
         </p>
       </div>
     </main>

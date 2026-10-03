@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
   return (
     <AdminLayout
       title="Dashboard"
-      subtitle="Overview of your MOAS Tech store."
+      subtitle="Overview of your VS Tech store."
     >
         {error && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">

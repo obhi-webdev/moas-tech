@@ -174,7 +174,7 @@ export default function AdminCategoriesPage() {
   return (
     <AdminLayout
       title="Categories"
-      subtitle="Manage MOAS Tech product categories."
+      subtitle="Manage VS Tech product categories."
     >
       <div>
         <div className="mb-6 flex justify-end">

@@ -345,7 +345,7 @@ export default function ProductDetailsPage() {
   if (loading) {
     return (
       <>
-        <Header phone="01614106550" whatsapp="01614106550" />
+        <Header phone="01737092358" whatsapp="01737092358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-7xl px-4 py-12">
@@ -361,7 +361,7 @@ export default function ProductDetailsPage() {
   if (error || !product) {
     return (
       <>
-        <Header phone="01614106550" whatsapp="01614106550" />
+        <Header phone="01737092358" whatsapp="01737092358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-7xl px-4 py-12">
@@ -396,7 +396,7 @@ export default function ProductDetailsPage() {
 
   return (
     <>
-      <Header phone="01614106550" whatsapp="01614106550" />
+      <Header phone="01737092358" whatsapp="01737092358" />
 
       <main className="min-h-screen bg-[#f1f3f6]">
         <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">

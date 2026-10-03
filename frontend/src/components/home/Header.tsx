@@ -15,13 +15,11 @@ interface Category {
   slug: string;
 }
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:5001/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 export default function Header({
-  phone = "01614106550",
-  whatsapp = "01614106550",
+  phone = "01737092358",
+  whatsapp = "01737092358",
 }: HeaderProps) {
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -54,8 +52,7 @@ export default function Header({
 
     if (!value) return;
 
-    window.location.href =
-      `/shop?search=${encodeURIComponent(value)}`;
+    window.location.href = `/shop?search=${encodeURIComponent(value)}`;
   }
 
   const whatsappNumber = whatsapp.replace(/\D/g, "");
@@ -70,19 +67,13 @@ export default function Header({
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 transition-all duration-300 hover:border-orange-500/40 hover:bg-white/5 active:scale-95 lg:hidden"
-            aria-label={
-              mobileMenuOpen
-                ? "Close menu"
-                : "Open menu"
-            }
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
             <span className="relative block h-5 w-5">
               <span
                 className={`absolute left-0 top-[3px] h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${
-                  mobileMenuOpen
-                    ? "translate-y-[6px] rotate-45"
-                    : ""
+                  mobileMenuOpen ? "translate-y-[6px] rotate-45" : ""
                 }`}
               />
 
@@ -96,9 +87,7 @@ export default function Header({
 
               <span
                 className={`absolute left-0 top-[15px] h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${
-                  mobileMenuOpen
-                    ? "-translate-y-[6px] -rotate-45"
-                    : ""
+                  mobileMenuOpen ? "-translate-y-[6px] -rotate-45" : ""
                 }`}
               />
             </span>
@@ -110,7 +99,7 @@ export default function Header({
             className="group/logo min-w-fit shrink-0 leading-none transition-transform duration-300 md:hover:scale-[1.02]"
           >
             <div className="text-2xl font-black tracking-tight md:text-3xl">
-              <span className="text-orange-500">MOAS</span>
+              <span className="text-orange-500">VS</span>
               <span className="text-white"> TECH</span>
             </div>
 
@@ -155,9 +144,7 @@ export default function Header({
 
               <div>
                 <p className="text-sm font-bold">Offers</p>
-                <p className="text-[11px] text-slate-400">
-                  Latest Offers
-                </p>
+                <p className="text-[11px] text-slate-400">Latest Offers</p>
               </div>
             </Link>
 
@@ -171,9 +158,7 @@ export default function Header({
 
               <div>
                 <p className="text-sm font-bold">Track Order</p>
-                <p className="text-[11px] text-slate-400">
-                  Order Status
-                </p>
+                <p className="text-[11px] text-slate-400">Order Status</p>
               </div>
             </Link>
 
@@ -187,9 +172,7 @@ export default function Header({
 
               <div>
                 <p className="text-sm font-bold">Account</p>
-                <p className="text-[11px] text-slate-400">
-                  Admin Login
-                </p>
+                <p className="text-[11px] text-slate-400">Admin Login</p>
               </div>
             </Link>
 
@@ -198,7 +181,6 @@ export default function Header({
               className="relative flex h-11 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg active:translate-y-0 active:scale-[0.97]"
             >
               Cart
-
               {cartCount > 0 && (
                 <span className="absolute -right-2 -top-2 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
                   {cartCount}
@@ -284,80 +266,80 @@ export default function Header({
             : "pointer-events-none max-h-0 -translate-y-2 border-b-0 opacity-0 shadow-none"
         }`}
       >
-          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-4 text-sm font-semibold text-slate-800">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-4 text-sm font-semibold text-slate-800">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/shop"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            All Products
+          </Link>
+
+          {categories.map((category) => (
             <Link
-              href="/"
+              key={category._id}
+              href={`/category/${category.slug}`}
               onClick={() => setMobileMenuOpen(false)}
               className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
             >
-              Home
+              {category.name}
             </Link>
+          ))}
 
-            <Link
-              href="/shop"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-            >
-              All Products
-            </Link>
+          <Link
+            href="/shop?featured=true"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            Featured
+          </Link>
 
-            {categories.map((category) => (
-              <Link
-                key={category._id}
-                href={`/category/${category.slug}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-              >
-                {category.name}
-              </Link>
-            ))}
+          <Link
+            href="/shop?offer=true"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            Offers
+          </Link>
 
-            <Link
-              href="/shop?featured=true"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-            >
-              Featured
-            </Link>
+          <Link
+            href="/orders/track"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            Track Order
+          </Link>
 
-            <Link
-              href="/shop?offer=true"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-            >
-              Offers
-            </Link>
+          <Link
+            href="/about"
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+          >
+            About Us
+          </Link>
 
-            <Link
-              href="/orders/track"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-            >
-              Track Order
-            </Link>
-
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-            >
-              About Us
-            </Link>
-
-            <a
-              href={`https://wa.me/${whatsappNumber}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-green-50 px-4 py-3 text-green-700"
-            >
-              WhatsApp
-            </a>
-          </div>
-
-          <div className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">
-            {phone} · Mymensingh, Bangladesh
-          </div>
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-green-50 px-4 py-3 text-green-700"
+          >
+            WhatsApp
+          </a>
         </div>
+
+        <div className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">
+          {phone} · Mymensingh, Bangladesh
+        </div>
+      </div>
     </>
   );
 }

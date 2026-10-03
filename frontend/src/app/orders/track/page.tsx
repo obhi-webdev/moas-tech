@@ -152,8 +152,8 @@ function TrackOrderContent() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main className="min-h-screen bg-slate-50">
@@ -172,7 +172,7 @@ function TrackOrderContent() {
             </h1>
 
             <p className="mt-2 text-slate-500">
-              Enter your MOAS Tech order number to
+              Enter your VS Tech order number to
               check the current order status.
             </p>
           </div>

@@ -7,8 +7,8 @@ export default function AboutPage() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main className="min-h-screen bg-slate-50">
@@ -17,7 +17,7 @@ export default function AboutPage() {
         <section className="border-b border-slate-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-14 md:py-20">
             <p className="text-sm font-bold uppercase tracking-wider text-orange-500">
-              About MOAS Tech
+              About VS Tech
             </p>
 
             <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
@@ -25,7 +25,7 @@ export default function AboutPage() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              MOAS Tech provides laptops, computers, accessories and
+              VS Tech provides laptops, computers, accessories and
               technology products with a simple and convenient online
               shopping experience.
             </p>
@@ -39,7 +39,7 @@ export default function AboutPage() {
               </Link>
 
               <a
-                href="https://wa.me/8801614106550"
+                href="https://wa.me/8801737092358"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700 transition hover:bg-slate-50"
@@ -60,7 +60,7 @@ export default function AboutPage() {
               </p>
 
               <h2 className="mt-3 text-3xl font-bold text-slate-900">
-                Welcome to MOAS Tech
+                Welcome to VS Tech
               </h2>
 
               <p className="mt-5 leading-7 text-slate-600">
@@ -146,12 +146,12 @@ export default function AboutPage() {
             </h2>
 
             <p className="mx-auto mt-3 max-w-xl text-blue-100">
-              Contact MOAS Tech and talk with our team about the product
+              Contact VS Tech and talk with our team about the product
               you are looking for.
             </p>
 
             <a
-              href="https://wa.me/8801614106550"
+              href="https://wa.me/8801737092358"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex rounded-xl bg-white px-7 py-3.5 font-bold text-blue-700 transition hover:bg-slate-100"

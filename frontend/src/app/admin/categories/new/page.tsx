@@ -127,7 +127,7 @@ export default function AddCategoryPage() {
   return (
     <AdminLayout
       title="Add Category"
-      subtitle="Create a new product category for MOAS Tech."
+      subtitle="Create a new product category for VS Tech."
     >
       <div className="mx-auto max-w-4xl">
 

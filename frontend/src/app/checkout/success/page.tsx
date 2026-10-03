@@ -13,8 +13,8 @@ function OrderSuccessContent() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main className="min-h-screen bg-slate-50">
@@ -30,7 +30,7 @@ function OrderSuccessContent() {
             </h1>
 
             <p className="mt-3 text-slate-600">
-              Thank you for ordering from MOAS Tech.
+              Thank you for ordering from VS Tech.
             </p>
 
             {orderNumber && (

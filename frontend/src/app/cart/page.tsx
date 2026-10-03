@@ -21,8 +21,8 @@ export default function CartPage() {
   return (
     <>
       <Header
-        phone="01614106550"
-        whatsapp="01614106550"
+        phone="01737092358"
+        whatsapp="01737092358"
       />
 
       <main className="min-h-screen bg-[#f1f3f6]">
