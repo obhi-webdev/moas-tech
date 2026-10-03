@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section className="bg-[#f1f3f6]">
-      <div className="mx-auto max-w-7xl px-4 pb-5 pt-5">
+      <div className="mx-auto max-w-7xl px-2 pb-5 pt-4 sm:px-4 sm:pt-5">
 
         <div className="grid gap-4 lg:grid-cols-[minmax(0,2.25fr)_320px]">
 
@@ -29,18 +29,18 @@ export default function Hero() {
           </Link>
 
           {/* RIGHT SIDE */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4">
 
             {/* SIDE BANNER 1 */}
             <Link
               href="/shop?offer=true"
-              className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 lg:aspect-auto lg:min-h-0"
+              className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
             >
               <Image
                 src="/side-banner-1.jpg"
                 alt="VS Tech Special Offer"
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
+                sizes="(max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </Link>
@@ -48,13 +48,13 @@ export default function Hero() {
             {/* SIDE BANNER 2 */}
             <Link
               href="/orders/track"
-              className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 lg:aspect-auto lg:min-h-0"
+              className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
             >
               <Image
                 src="/side-banner-2.jpg"
                 alt="VS Tech Order Support"
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
+                sizes="(max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </Link>
