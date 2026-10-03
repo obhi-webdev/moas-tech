@@ -11,7 +11,7 @@ export default function Hero() {
           {/* MAIN BANNER */}
           <Link
             href="/shop"
-            className="group relative block min-h-[430px] overflow-hidden rounded-lg bg-white lg:h-full"
+            className="group relative block aspect-[2659/984] overflow-hidden rounded-lg bg-white lg:aspect-auto lg:min-h-[430px] lg:h-full"
           >
             <Image
               src="/hero-banner.png"
@@ -19,28 +19,28 @@ export default function Hero() {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 900px"
-              className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+              className="object-contain object-center transition-transform duration-500 lg:object-cover lg:group-hover:scale-[1.02]"
             />
 
             {/* ORDER NOW BUTTON */}
-            <span className="absolute bottom-8 left-8 z-20 inline-flex items-center justify-center rounded-lg bg-orange-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-orange-600 hover:-translate-y-0.5 md:bottom-10 md:left-10 md:px-8 md:py-4 md:text-base">
+            <span className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-md transition-all duration-300 hover:bg-orange-600 md:bottom-6 md:left-6 md:px-6 md:py-3 md:text-sm lg:bottom-10 lg:left-10 lg:px-8 lg:py-4 lg:text-base">
               অর্ডার করুন →
             </span>
           </Link>
 
           {/* RIGHT SIDE */}
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
 
             {/* SIDE BANNER 1 */}
             <Link
               href="/shop?offer=true"
-              className="group relative min-h-[165px] overflow-hidden rounded-lg bg-slate-100 lg:min-h-0"
+              className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 lg:aspect-auto lg:min-h-0"
             >
               <Image
                 src="/side-banner-1.jpg"
                 alt="VS Tech Special Offer"
                 fill
-                sizes="(max-width: 1024px) 50vw, 320px"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </Link>
@@ -48,13 +48,13 @@ export default function Hero() {
             {/* SIDE BANNER 2 */}
             <Link
               href="/orders/track"
-              className="group relative min-h-[165px] overflow-hidden rounded-lg bg-slate-100 lg:min-h-0"
+              className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 lg:aspect-auto lg:min-h-0"
             >
               <Image
                 src="/side-banner-2.jpg"
                 alt="VS Tech Order Support"
                 fill
-                sizes="(max-width: 1024px) 50vw, 320px"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </Link>
