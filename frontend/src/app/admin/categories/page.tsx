@@ -32,7 +32,7 @@ export default function AdminCategoriesPage() {
   // =========================================
 
   async function loadCategories() {
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -59,8 +59,8 @@ export default function AdminCategoriesPage() {
       }
 
       if (response.status === 401) {
-        localStorage.removeItem("moas-tech-admin-token");
-        localStorage.removeItem("moas-tech-admin-user");
+        localStorage.removeItem("vc-tech-admin-token");
+        localStorage.removeItem("vc-tech-admin-user");
 
         router.replace("/admin/login");
         return;
@@ -109,7 +109,7 @@ export default function AdminCategoriesPage() {
 
     if (!confirmed) return;
 
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -136,8 +136,8 @@ export default function AdminCategoriesPage() {
       }
 
       if (response.status === 401) {
-        localStorage.removeItem("moas-tech-admin-token");
-        localStorage.removeItem("moas-tech-admin-user");
+        localStorage.removeItem("vc-tech-admin-token");
+        localStorage.removeItem("vc-tech-admin-user");
 
         router.replace("/admin/login");
         return;
@@ -174,7 +174,7 @@ export default function AdminCategoriesPage() {
   return (
     <AdminLayout
       title="Categories"
-      subtitle="Manage VS Tech product categories."
+      subtitle="Manage VC Tech product categories."
     >
       <div>
         <div className="mb-6 flex justify-end">

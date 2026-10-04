@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     apple: "/vslogo.png",
   },
 
-  title: "VS Tech",
-  description: "Computers, laptops and technology products from VS Tech",
+  title: "VC Tech",
+  description: "Computers, laptops and technology products from VC Tech",
 };
 
 export default function RootLayout({

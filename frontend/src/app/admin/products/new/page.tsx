@@ -61,7 +61,7 @@ export default function AddProductPage() {
 
   useEffect(() => {
     const token = localStorage.getItem(
-      "moas-tech-admin-token",
+      "vc-tech-admin-token",
     );
 
     if (!token) {
@@ -82,11 +82,11 @@ export default function AddProductPage() {
 
         if (response.status === 401) {
           localStorage.removeItem(
-            "moas-tech-admin-token",
+            "vc-tech-admin-token",
           );
 
           localStorage.removeItem(
-            "moas-tech-admin-user",
+            "vc-tech-admin-user",
           );
 
           router.replace("/admin/login");
@@ -143,7 +143,7 @@ export default function AddProductPage() {
     if (selectedFiles.length === 0) return;
 
     const token = localStorage.getItem(
-      "moas-tech-admin-token",
+      "vc-tech-admin-token",
     );
 
     if (!token) {
@@ -227,10 +227,10 @@ export default function AddProductPage() {
           response.status === 403
         ) {
           localStorage.removeItem(
-            "moas-tech-admin-token",
+            "vc-tech-admin-token",
           );
           localStorage.removeItem(
-            "moas-tech-admin-user",
+            "vc-tech-admin-user",
           );
 
           router.replace("/admin/login");
@@ -357,7 +357,7 @@ export default function AddProductPage() {
     event.preventDefault();
 
     const token = localStorage.getItem(
-      "moas-tech-admin-token",
+      "vc-tech-admin-token",
     );
 
     if (!token) {
@@ -476,7 +476,7 @@ export default function AddProductPage() {
   return (
     <AdminLayout
       title="Add Product"
-      subtitle="Add a new product to VS Tech."
+      subtitle="Add a new product to VC Tech."
     >
       <div className="mx-auto max-w-5xl">
         {error && (

@@ -99,7 +99,7 @@ export default function Header({
             className="group/logo min-w-fit shrink-0 leading-none transition-transform duration-300 md:hover:scale-[1.02]"
           >
             <div className="text-2xl font-black tracking-tight md:text-3xl">
-              <span className="text-orange-500">VS</span>
+              <span className="text-orange-500">VC</span>
               <span className="text-white"> TECH</span>
             </div>
 

@@ -19,7 +19,7 @@ export class SettingsService {
     if (!settings) {
       settings = (
         await this.settingModel.create({
-          siteName: 'MOAS Tech',
+          siteName: 'VC Tech',
           phone: '01614106550',
           whatsapp: '01614106550',
           address: 'Mymensingh, Bangladesh',

@@ -45,7 +45,7 @@ export default function EditCategoryPage({ params }: PageProps) {
 
   useEffect(() => {
     async function loadCategory() {
-      const token = localStorage.getItem("moas-tech-admin-token");
+      const token = localStorage.getItem("vc-tech-admin-token");
 
       if (!token) {
         router.replace("/admin/login");
@@ -72,9 +72,9 @@ export default function EditCategoryPage({ params }: PageProps) {
         }
 
         if (response.status === 401) {
-          localStorage.removeItem("moas-tech-admin-token");
+          localStorage.removeItem("vc-tech-admin-token");
 
-          localStorage.removeItem("moas-tech-admin-user");
+          localStorage.removeItem("vc-tech-admin-user");
 
           router.replace("/admin/login");
           return;
@@ -119,7 +119,7 @@ export default function EditCategoryPage({ params }: PageProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -193,9 +193,9 @@ export default function EditCategoryPage({ params }: PageProps) {
       }
 
       if (response.status === 401) {
-        localStorage.removeItem("moas-tech-admin-token");
+        localStorage.removeItem("vc-tech-admin-token");
 
-        localStorage.removeItem("moas-tech-admin-user");
+        localStorage.removeItem("vc-tech-admin-user");
 
         router.replace("/admin/login");
 

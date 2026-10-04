@@ -84,7 +84,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     const token =
-      localStorage.getItem("moas-tech-admin-token");
+      localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -107,11 +107,11 @@ export default function AdminDashboardPage() {
 
         if (response.status === 401) {
           localStorage.removeItem(
-            "moas-tech-admin-token",
+            "vc-tech-admin-token",
           );
 
           localStorage.removeItem(
-            "moas-tech-admin-user",
+            "vc-tech-admin-user",
           );
 
           router.replace("/admin/login");
@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
   return (
     <AdminLayout
       title="Dashboard"
-      subtitle="Overview of your VS Tech store."
+      subtitle="Overview of your VC Tech store."
     >
         {error && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">

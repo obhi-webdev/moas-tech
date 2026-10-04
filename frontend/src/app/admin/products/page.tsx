@@ -58,7 +58,7 @@ export default function AdminProductsPage() {
 
   async function loadProducts() {
     const token = localStorage.getItem(
-      "moas-tech-admin-token",
+      "vc-tech-admin-token",
     );
 
     if (!token) {
@@ -81,11 +81,11 @@ export default function AdminProductsPage() {
 
       if (response.status === 401) {
         localStorage.removeItem(
-          "moas-tech-admin-token",
+          "vc-tech-admin-token",
         );
 
         localStorage.removeItem(
-          "moas-tech-admin-user",
+          "vc-tech-admin-user",
         );
 
         router.replace("/admin/login");
@@ -130,7 +130,7 @@ export default function AdminProductsPage() {
     if (!confirmed) return;
 
     const token = localStorage.getItem(
-      "moas-tech-admin-token",
+      "vc-tech-admin-token",
     );
 
     if (!token) {

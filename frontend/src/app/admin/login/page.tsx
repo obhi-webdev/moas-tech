@@ -15,7 +15,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (token) {
       router.replace("/admin/dashboard");
@@ -69,12 +69,12 @@ export default function AdminLoginPage() {
       }
 
       localStorage.setItem(
-        "moas-tech-admin-token",
+        "vc-tech-admin-token",
         data.accessToken,
       );
 
       localStorage.setItem(
-        "moas-tech-admin-user",
+        "vc-tech-admin-user",
         JSON.stringify(data.user),
       );
 
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
           </div>
 
           <h1 className="mt-5 text-2xl font-bold text-slate-900">
-            VS Tech Admin
+            VC Tech Admin
           </h1>
 
           <p className="mt-2 text-sm text-slate-500">
@@ -125,7 +125,7 @@ export default function AdminLoginPage() {
               onChange={(event) =>
                 setIdentifier(event.target.value)
               }
-              placeholder="admin@moastech.com"
+              placeholder="admin@vctech.com"
               autoComplete="username"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600"
             />
@@ -164,7 +164,7 @@ export default function AdminLoginPage() {
         </form>
 
         <p className="mt-7 text-center text-xs text-slate-400">
-          VS Tech Store Management
+          VC Tech Store Management
         </p>
       </div>
     </main>

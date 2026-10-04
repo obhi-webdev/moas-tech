@@ -9,7 +9,7 @@ export type SettingDocument = HydratedDocument<Setting>;
 })
 export class Setting {
   @Prop({
-    default: 'MOAS Tech',
+    default: 'VC Tech',
     trim: true,
   })
   siteName: string;

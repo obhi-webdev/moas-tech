@@ -17,7 +17,7 @@ export default function AboutPage() {
         <section className="border-b border-slate-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-14 md:py-20">
             <p className="text-sm font-bold uppercase tracking-wider text-orange-500">
-              About VS Tech
+              About VC Tech
             </p>
 
             <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
@@ -25,7 +25,7 @@ export default function AboutPage() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              VS Tech provides laptops, computers, accessories and
+              VC Tech provides laptops, computers, accessories and
               technology products with a simple and convenient online
               shopping experience.
             </p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
               </p>
 
               <h2 className="mt-3 text-3xl font-bold text-slate-900">
-                Welcome to VS Tech
+                Welcome to VC Tech
               </h2>
 
               <p className="mt-5 leading-7 text-slate-600">
@@ -146,7 +146,7 @@ export default function AboutPage() {
             </h2>
 
             <p className="mx-auto mt-3 max-w-xl text-blue-100">
-              Contact VS Tech and talk with our team about the product
+              Contact VC Tech and talk with our team about the product
               you are looking for.
             </p>
 

@@ -172,7 +172,7 @@ function TrackOrderContent() {
             </h1>
 
             <p className="mt-2 text-slate-500">
-              Enter your VS Tech order number to
+              Enter your VC Tech order number to
               check the current order status.
             </p>
           </div>

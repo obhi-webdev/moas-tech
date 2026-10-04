@@ -24,7 +24,7 @@ export default function AddCategoryPage() {
   // =========================================
 
   useEffect(() => {
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -38,7 +38,7 @@ export default function AddCategoryPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const token = localStorage.getItem("moas-tech-admin-token");
+    const token = localStorage.getItem("vc-tech-admin-token");
 
     if (!token) {
       router.replace("/admin/login");
@@ -90,8 +90,8 @@ export default function AddCategoryPage() {
       }
 
       if (response.status === 401) {
-        localStorage.removeItem("moas-tech-admin-token");
-        localStorage.removeItem("moas-tech-admin-user");
+        localStorage.removeItem("vc-tech-admin-token");
+        localStorage.removeItem("vc-tech-admin-user");
 
         router.replace("/admin/login");
         return;
@@ -127,7 +127,7 @@ export default function AddCategoryPage() {
   return (
     <AdminLayout
       title="Add Category"
-      subtitle="Create a new product category for VS Tech."
+      subtitle="Create a new product category for VC Tech."
     >
       <div className="mx-auto max-w-4xl">
 

@@ -72,7 +72,7 @@ export default function AdminOrdersPage() {
 
   useEffect(() => {
     async function loadOrders() {
-      const token = localStorage.getItem("moas-tech-admin-token");
+      const token = localStorage.getItem("vc-tech-admin-token");
 
       if (!token) {
         router.replace("/admin/login");
@@ -102,9 +102,9 @@ export default function AdminOrdersPage() {
         }
 
         if (response.status === 401) {
-          localStorage.removeItem("moas-tech-admin-token");
+          localStorage.removeItem("vc-tech-admin-token");
 
-          localStorage.removeItem("moas-tech-admin-user");
+          localStorage.removeItem("vc-tech-admin-user");
 
           router.replace("/admin/login");
           return;

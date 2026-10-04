@@ -15,7 +15,7 @@ export default function Hero() {
           >
             <Image
               src="/hero-banner.png"
-              alt="VS Tech"
+              alt="VC Tech"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 900px"
@@ -38,7 +38,7 @@ export default function Hero() {
             >
               <Image
                 src="/side-banner-1.jpg"
-                alt="VS Tech Special Offer"
+                alt="VC Tech Special Offer"
                 fill
                 sizes="(max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
@@ -52,7 +52,7 @@ export default function Hero() {
             >
               <Image
                 src="/side-banner-2.jpg"
-                alt="VS Tech Order Support"
+                alt="VC Tech Order Support"
                 fill
                 sizes="(max-width: 1024px) 50vw, 320px"
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
@@ -71,7 +71,7 @@ export default function Hero() {
           </div>
 
           <p className="truncate px-5 text-xs font-medium text-slate-600 md:text-sm">
-            VS Tech online store is open — order your favourite technology
+            VC Tech online store is open — order your favourite technology
             products from anywhere in Bangladesh.
           </p>
 

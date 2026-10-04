@@ -39,7 +39,7 @@ export default function Home() {
         <RevealSection>
           <ProductSection
             title="Latest Products"
-            subtitle="Explore the latest products at VS Tech"
+            subtitle="Explore the latest products at VC Tech"
             query="sort=newest"
             viewAllHref="/shop?sort=newest"
           />

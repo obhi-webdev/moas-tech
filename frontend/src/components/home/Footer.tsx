@@ -68,7 +68,7 @@ export default function Footer() {
                 href="/about"
                 className="transition hover:text-orange-400"
               >
-                About VS Tech
+                About VC Tech
               </Link>
 
               <Link
@@ -143,7 +143,7 @@ export default function Footer() {
             >
               <div className="text-2xl font-black tracking-tight">
                 <span className="text-orange-500">
-                  MOAS
+                  VC
                 </span>{" "}
                 <span className="text-white">
                   TECH
@@ -184,7 +184,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Shopping With VS Tech
+              Shopping With VC Tech
             </p>
 
             <div className="mt-2 flex flex-wrap gap-2">
@@ -215,12 +215,12 @@ export default function Footer() {
       <div className="border-t border-slate-800 bg-[#05121c]">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} VS Tech. All
+            © {new Date().getFullYear()} VC Tech. All
             rights reserved.
           </p>
 
           <p>
-            Powered by VS Tech
+            Powered by VC Tech
           </p>
         </div>
       </div>

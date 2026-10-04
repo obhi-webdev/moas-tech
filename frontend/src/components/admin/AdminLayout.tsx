@@ -45,7 +45,7 @@ export default function AdminLayout({
 
   useEffect(() => {
     const savedUser = localStorage.getItem(
-      "moas-tech-admin-user",
+      "vc-tech-admin-user",
     );
 
     if (!savedUser) return;
@@ -62,8 +62,8 @@ export default function AdminLayout({
   }, []);
 
   function logout() {
-    localStorage.removeItem("moas-tech-admin-token");
-    localStorage.removeItem("moas-tech-admin-user");
+    localStorage.removeItem("vc-tech-admin-token");
+    localStorage.removeItem("vc-tech-admin-user");
 
     router.replace("/admin/login");
   }
@@ -80,7 +80,7 @@ export default function AdminLayout({
             href="/admin/dashboard"
             className="text-xl font-black"
           >
-            <span className="text-white">MOAS</span>{" "}
+            <span className="text-white">VC</span>{" "}
             <span className="text-orange-500">Tech</span>
 
             <span className="ml-2 text-xs font-medium text-slate-400">
