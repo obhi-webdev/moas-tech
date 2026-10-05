@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  InternalServerErrorException,
   Post,
   UploadedFile,
   UseGuards,
@@ -8,8 +9,8 @@ import {
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { memoryStorage } from 'multer';
+import ImageKit, { toFile } from '@imagekit/nodejs';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { AdminGuard } from '../auth/guards/admin.guard.js';
@@ -20,24 +21,7 @@ export class UploadsController {
   @Post('product')
   @UseInterceptors(
     FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads/products',
-
-        filename: (req, file, callback) => {
-          const uniqueName =
-            `${Date.now()}-${Math.round(
-              Math.random() * 1e9,
-            )}`;
-
-          const extension =
-            extname(file.originalname).toLowerCase();
-
-          callback(
-            null,
-            `${uniqueName}${extension}`,
-          );
-        },
-      }),
+      storage: memoryStorage(),
 
       limits: {
         fileSize: 5 * 1024 * 1024,
@@ -63,7 +47,7 @@ export class UploadsController {
       },
     }),
   )
-  uploadProductImage(
+  async uploadProductImage(
     @UploadedFile() file: Express.Multer.File,
   ) {
     if (!file) {
@@ -72,9 +56,55 @@ export class UploadsController {
       );
     }
 
-    return {
-      message: 'Image uploaded successfully',
-      image: `/uploads/products/${file.filename}`,
-    };
+    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+
+    if (!privateKey) {
+      throw new InternalServerErrorException(
+        'ImageKit configuration is missing',
+      );
+    }
+
+    try {
+      const imagekit = new ImageKit({
+        privateKey,
+      });
+
+      const safeName = file.originalname
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+      const extension =
+        file.originalname
+          .split('.')
+          .pop()
+          ?.toLowerCase() || 'jpg';
+
+      const fileName =
+        `${safeName || 'product'}-${Date.now()}.${extension}`;
+
+      const result = await imagekit.files.upload({
+        file: await toFile(file.buffer, file.originalname),
+        fileName,
+        folder: '/vc-tech/products',
+        useUniqueFileName: true,
+      });
+
+      if (!result.url) {
+        throw new Error('ImageKit did not return an image URL');
+      }
+
+      return {
+        message: 'Image uploaded successfully',
+        image: result.url,
+      };
+    } catch (error) {
+      console.error('ImageKit upload error:', error);
+
+      throw new InternalServerErrorException(
+        'Image upload failed',
+      );
+    }
   }
 }
