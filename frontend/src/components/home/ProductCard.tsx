@@ -131,7 +131,7 @@ export default function ProductCard({
             )}
         </div>
 
-        <div className="flex h-[150px] w-full items-center justify-center p-2 sm:h-[220px] sm:p-4">
+        <div className="flex h-[150px] w-full items-center justify-center p-2 sm:h-[190px] sm:p-3">
           {productImage ? (
             <img
               src={productImage}
@@ -148,7 +148,7 @@ export default function ProductCard({
       </Link>
 
       {/* PRODUCT INFORMATION */}
-      <div className="flex flex-1 flex-col px-3 pb-3 pt-3 sm:px-4 sm:pb-4">
+      <div className="flex flex-1 flex-col px-3 pb-3 pt-3 sm:px-4 sm:pb-3">
 
         {/* CATEGORY */}
         {product.category && (
@@ -169,12 +169,12 @@ export default function ProductCard({
 
         {/* SHORT DESCRIPTION */}
         {product.shortDescription && (
-          <p className="mt-1.5 hidden line-clamp-2 text-[12px] font-normal leading-[18px] text-slate-500 sm:block">
+          <p className="mt-1.5 hidden overflow-hidden text-[12px] font-normal leading-[18px] text-slate-500 sm:[display:-webkit-box] sm:[-webkit-box-orient:vertical] sm:[-webkit-line-clamp:2]">
             {product.shortDescription}
           </p>
         )}
 
-        <div className="mt-auto pt-2 sm:pt-3">
+        <div className="mt-auto pt-2">
 
           {/* PRICE */}
           <div className="flex flex-wrap items-baseline gap-2">
@@ -211,7 +211,7 @@ export default function ProductCard({
           </div>
 
           {/* ACTIONS */}
-          <div className="mt-2.5 grid grid-cols-[1fr_38px] gap-1.5 sm:mt-3 sm:grid-cols-[1fr_44px] sm:gap-2">
+          <div className="mt-2.5 grid grid-cols-[1fr_38px] gap-1.5 sm:mt-2.5 sm:grid-cols-[1fr_44px] sm:gap-2">
             <button
               type="button"
               disabled={product.stock <= 0}
