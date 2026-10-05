@@ -95,130 +95,134 @@ export default function ProductCard({
   }
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-lg md:hover:-translate-y-1">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out md:hover:-translate-y-1 md:hover:border-orange-200 md:hover:shadow-xl">
 
-      {/* IMAGE AREA */}
-      <Link
-        href={`/product/${product.slug}`}
-        className="relative block bg-[#fafafa]"
-      >
-        {/* BADGES */}
-        <div className="absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
-          {hasSalePrice && (
-            <>
-              <span className="rounded-md bg-violet-600 px-2.5 py-1 text-[10px] font-semibold text-white shadow-sm">
-                Save ৳{formatPrice(discountAmount)}
-              </span>
+      {/* BADGES */}
 
-              <span className="rounded-md bg-orange-500 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
-                -{discountPercent}%
-              </span>
-            </>
-          )}
+      <div className="absolute left-0 top-3 z-10 flex flex-col items-start gap-1.5">
 
-          {!hasSalePrice && product.isNewArrival && (
-            <span className="rounded-md bg-blue-600 px-2.5 py-1 text-[10px] font-semibold text-white">
-              New Arrival
+        {hasSalePrice && (
+          <span className="rounded-r bg-[#6d28d9] px-2.5 py-1.5 text-[10px] font-bold text-white">
+            Save ৳{formatPrice(discountAmount)}
+          </span>
+        )}
+
+        {hasSalePrice && (
+          <span className="rounded-r bg-orange-500 px-2.5 py-1 text-[9px] font-black text-white">
+            -{discountPercent}%
+          </span>
+        )}
+
+        {!hasSalePrice && product.isNewArrival && (
+          <span className="rounded-r bg-blue-700 px-2.5 py-1.5 text-[10px] font-bold text-white">
+            New Arrival
+          </span>
+        )}
+
+        {!hasSalePrice &&
+          !product.isNewArrival &&
+          product.isOffer && (
+            <span className="rounded-r bg-orange-500 px-2.5 py-1.5 text-[10px] font-bold text-white">
+              Special Offer
             </span>
           )}
 
-          {!hasSalePrice &&
-            !product.isNewArrival &&
-            product.isOffer && (
-              <span className="rounded-md bg-orange-500 px-2.5 py-1 text-[10px] font-semibold text-white">
-                Special Offer
-              </span>
-            )}
-        </div>
+      </div>
 
-        <div className="flex h-[150px] w-full items-center justify-center p-2 sm:h-[220px] sm:p-4">
+      {/* IMAGE */}
+
+      <Link
+        href={`/product/${product.slug}`}
+        className="relative block overflow-hidden bg-white transition-colors duration-300 md:group-hover:bg-slate-50/40"
+      >
+        <div className="flex h-[135px] items-center justify-center p-3 sm:h-[165px] sm:p-4 md:h-[180px] md:p-5">
           {productImage ? (
             <img
               src={productImage}
               alt={product.name}
-              loading="lazy"
-              className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+              className="h-full w-full object-contain transition-transform duration-500 ease-out md:group-hover:scale-[1.06]"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-xs font-medium text-slate-400">
+            <div className="flex h-full w-full items-center justify-center rounded bg-slate-50 text-xs font-medium text-slate-400">
               No Image
             </div>
           )}
         </div>
       </Link>
 
-      {/* PRODUCT INFORMATION */}
-      <div className="flex flex-1 flex-col px-3 pb-3 pt-3 sm:px-4 sm:pb-4">
+      {/* INFORMATION */}
 
-        {/* CATEGORY */}
+      <div className="flex flex-1 flex-col border-t border-slate-100 px-3 pb-3 pt-2.5 sm:px-4 sm:pb-4 sm:pt-3">
+
         {product.category && (
           <Link
             href={`/category/${product.category.slug}`}
-            className="mb-1.5 w-fit text-[9px] sm:mb-2 sm:text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 transition-colors hover:text-orange-500"
+            className="mb-1 w-fit text-[9px] font-bold uppercase tracking-wide text-slate-400 transition hover:text-orange-500 sm:mb-1.5 sm:text-[10px]"
           >
             {product.category.name}
           </Link>
         )}
 
-        {/* TITLE */}
         <Link href={`/product/${product.slug}`}>
-          <h3 className="line-clamp-2 min-h-[38px] text-[13px] font-semibold leading-[19px] sm:min-h-[44px] sm:text-[15px] sm:leading-[22px] text-slate-900 transition-colors group-hover:text-orange-500">
+          <h3 className="line-clamp-2 min-h-[36px] text-[12px] font-bold leading-[18px] text-[#172337] transition-colors duration-300 md:group-hover:text-orange-500 sm:min-h-[38px] sm:text-[13px] sm:leading-[19px]">
             {product.name}
           </h3>
         </Link>
 
-        {/* SHORT DESCRIPTION */}
         {product.shortDescription && (
-          <p className="mt-1.5 hidden line-clamp-2 text-[12px] font-normal leading-[18px] text-slate-500 sm:block">
+          <p className="mt-1.5 hidden line-clamp-2 text-[11px] leading-[16px] text-slate-500 sm:block">
             {product.shortDescription}
           </p>
         )}
 
-        <div className="mt-auto pt-2 sm:pt-3">
+        <div className="mt-auto pt-2 sm:pt-2.5">
 
           {/* PRICE */}
-          <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-[17px] font-bold tracking-tight text-[#ef3f32] sm:text-xl">
+
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className="text-[16px] font-black text-[#ef3f32] sm:text-lg">
               ৳{formatPrice(finalPrice)}
             </span>
 
             {hasSalePrice && (
-              <span className="text-xs font-medium text-slate-400 line-through">
+              <span className="text-[10px] font-semibold text-slate-400 line-through sm:text-xs">
                 ৳{formatPrice(product.regularPrice)}
               </span>
             )}
           </div>
 
-          {/* STOCK + BRAND */}
-          <div className="mt-2 flex min-h-5 items-center justify-between gap-3">
+          {/* STOCK */}
+
+          <div className="mt-1 flex items-center justify-between gap-1 sm:mt-1.5 sm:gap-2">
             {product.stock > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-emerald-600 sm:text-[11px]">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-green-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                 In Stock
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-red-500 sm:text-[11px]">
-                <span className="h-2 w-2 rounded-full bg-red-500" />
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-red-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
                 Out of Stock
               </span>
             )}
 
             {product.brand && (
-              <span className="max-w-[70px] truncate text-[9px] font-semibold text-slate-400 sm:max-w-[110px] sm:text-[11px]">
+              <span className="max-w-[90px] truncate text-[10px] font-semibold text-slate-400">
                 {product.brand}
               </span>
             )}
           </div>
 
           {/* ACTIONS */}
-          <div className="mt-2.5 grid grid-cols-[1fr_38px] gap-1.5 sm:mt-3 sm:grid-cols-[1fr_44px] sm:gap-2">
+
+          <div className="mt-2 grid grid-cols-[1fr_auto] gap-1.5 sm:mt-2 sm:gap-2">
             <button
               type="button"
               disabled={product.stock <= 0}
               onClick={handleAddToCart}
-              className={`h-9 rounded-lg px-2 text-[10px] font-semibold sm:h-11 sm:px-4 sm:text-[12px] text-white transition-all duration-200 active:scale-[0.98] ${
+              className={`rounded-md px-2 py-2 text-[10px] font-bold text-white transition-all duration-300 active:scale-[0.97] sm:px-3 sm:py-2 sm:text-[11px] md:hover:-translate-y-0.5 md:hover:shadow-md ${
                 added
-                  ? "bg-emerald-600"
+                  ? "bg-green-600"
                   : "bg-[#075eb4] hover:bg-[#064f96]"
               } disabled:cursor-not-allowed disabled:bg-slate-300`}
             >
@@ -232,11 +236,12 @@ export default function ProductCard({
             <Link
               href={`/product/${product.slug}`}
               aria-label={`View ${product.name}`}
-              className="flex h-9 items-center justify-center rounded-lg sm:h-11 border border-slate-200 text-lg font-medium text-slate-600 transition-all hover:border-orange-400 hover:bg-orange-50 hover:text-orange-500"
+              className="flex min-w-9 items-center justify-center rounded-md border border-slate-200 px-2 text-sm font-bold text-slate-600 transition-all duration-300 hover:border-orange-400 hover:bg-orange-50 hover:text-orange-500 active:scale-95 sm:min-w-10 sm:px-3 md:hover:translate-x-0.5"
             >
               →
             </Link>
           </div>
+
         </div>
       </div>
     </article>
