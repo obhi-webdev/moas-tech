@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsInt,
+  IsMongoId,
   IsOptional,
   IsString,
   Min,
@@ -19,6 +20,10 @@ export class CreateCategoryDto {
   @IsOptional()
   @IsString()
   image?: string;
+
+  @IsOptional()
+  @IsMongoId()
+  parentCategory?: string | null;
 
   @IsOptional()
   @IsBoolean()

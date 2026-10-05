@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -36,13 +36,6 @@ export class Category {
   image: string;
 
   @Prop({
-    type: Types.ObjectId,
-    ref: 'Category',
-    default: null,
-  })
-  parentCategory: Types.ObjectId | null;
-
-  @Prop({
     default: true,
   })
   isActive: boolean;
@@ -57,4 +50,3 @@ export class Category {
 export const CategorySchema = SchemaFactory.createForClass(Category);
 
 CategorySchema.index({ isActive: 1, sortOrder: 1 });
-CategorySchema.index({ parentCategory: 1, sortOrder: 1 });

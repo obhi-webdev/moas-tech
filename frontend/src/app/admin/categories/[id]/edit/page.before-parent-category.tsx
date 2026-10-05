@@ -1,80 +1,119 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminLayout from "@/components/admin/AdminLayout";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
-interface ParentCategory {
+interface Category {
   _id: string;
   name: string;
   slug: string;
+  description?: string;
+  image?: string;
+  isActive: boolean;
+  sortOrder?: number;
 }
 
-export default function AddCategoryPage() {
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default function EditCategoryPage({ params }: PageProps) {
   const router = useRouter();
 
+  const { id } = use(params);
+
   const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [sortOrder, setSortOrder] = useState("0");
   const [isActive, setIsActive] = useState(true);
 
-  const [parentCategory, setParentCategory] = useState("");
-  const [parentCategories, setParentCategories] = useState<ParentCategory[]>([]);
-  const [loadingParents, setLoadingParents] = useState(true);
-
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   // =========================================
-  // AUTH CHECK
+  // LOAD CATEGORY
   // =========================================
 
   useEffect(() => {
-    const token = localStorage.getItem("vc-tech-admin-token");
+    async function loadCategory() {
+      const token = localStorage.getItem("vc-tech-admin-token");
 
-    if (!token) {
-      router.replace("/admin/login");
-    }
-  }, [router]);
+      if (!token) {
+        router.replace("/admin/login");
+        return;
+      }
 
-  // =========================================
-  // LOAD MAIN CATEGORIES
-  // =========================================
-
-  useEffect(() => {
-    async function loadParentCategories() {
       try {
-        setLoadingParents(true);
+        setLoading(true);
+        setError("");
 
-        const response = await fetch(`${API_URL}/categories/main`, {
+        const response = await fetch(`${API_URL}/categories/admin/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           cache: "no-store",
         });
 
-        if (!response.ok) {
-          throw new Error("Parent categories could not be loaded.");
+        let data: Category | any = null;
+
+        try {
+          data = await response.json();
+        } catch {
+          data = null;
         }
 
-        const data = await response.json();
+        if (response.status === 401) {
+          localStorage.removeItem("vc-tech-admin-token");
 
-        setParentCategories(
-          Array.isArray(data) ? data : [],
-        );
+          localStorage.removeItem("vc-tech-admin-user");
+
+          router.replace("/admin/login");
+          return;
+        }
+
+        if (!response.ok) {
+          const message = Array.isArray(data?.message)
+            ? data.message.join(", ")
+            : data?.message;
+
+          throw new Error(message || "Category could not be loaded.");
+        }
+
+        setName(data.name || "");
+        setSlug(data.slug || "");
+        setDescription(data.description || "");
+        setImage(data.image || "");
+        setSortOrder(String(data.sortOrder ?? 0));
+        setIsActive(data.isActive ?? true);
       } catch (error) {
-        console.error("Parent category loading error:", error);
+        console.error("Category loading error:", error);
+
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Category could not be loaded.",
+        );
       } finally {
-        setLoadingParents(false);
+        setLoading(false);
       }
     }
 
-    loadParentCategories();
-  }, []);
+    if (id) {
+      loadCategory();
+    }
+  }, [id, router]);
 
   // =========================================
-  // CREATE CATEGORY
+  // UPDATE CATEGORY
   // =========================================
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -92,10 +131,15 @@ export default function AddCategoryPage() {
       return;
     }
 
+    if (name.trim().length < 2) {
+      setError("Category name must contain at least 2 characters.");
+      return;
+    }
+
     const numericSortOrder = Number(sortOrder);
 
-    if (!Number.isFinite(numericSortOrder) || numericSortOrder < 0) {
-      setError("Sort order must be zero or a positive number.");
+    if (!Number.isInteger(numericSortOrder) || numericSortOrder < 0) {
+      setError("Sort order must be zero or a positive whole number.");
       return;
     }
 
@@ -103,24 +147,40 @@ export default function AddCategoryPage() {
       setSaving(true);
       setError("");
 
-      // IMPORTANT:
-      // slug is NOT sent.
-      // Backend generates slug from category name.
+      /*
+       * IMPORTANT:
+       *
+       * UpdateCategoryDto accepts ONLY:
+       *
+       * name
+       * description
+       * image
+       * isActive
+       * sortOrder
+       *
+       * DO NOT send slug.
+       *
+       * Backend CategoriesService automatically
+       * regenerates slug when name changes.
+       */
+
       const payload = {
         name: name.trim(),
         description: description.trim(),
         image: image.trim(),
-        parentCategory: parentCategory || null,
         isActive,
         sortOrder: numericSortOrder,
       };
 
-      const response = await fetch(`${API_URL}/categories`, {
-        method: "POST",
+      const response = await fetch(`${API_URL}/categories/${id}`, {
+        method: "PATCH",
+
         headers: {
           "Content-Type": "application/json",
+
           Authorization: `Bearer ${token}`,
         },
+
         body: JSON.stringify(payload),
       });
 
@@ -134,9 +194,11 @@ export default function AddCategoryPage() {
 
       if (response.status === 401) {
         localStorage.removeItem("vc-tech-admin-token");
+
         localStorage.removeItem("vc-tech-admin-user");
 
         router.replace("/admin/login");
+
         return;
       }
 
@@ -145,22 +207,41 @@ export default function AddCategoryPage() {
           ? data.message.join(", ")
           : data?.message;
 
-        throw new Error(message || "Category could not be created.");
+        throw new Error(message || "Category could not be updated.");
       }
 
       router.push("/admin/categories");
+
       router.refresh();
     } catch (error) {
-      console.error("Create category error:", error);
+      console.error("Category update error:", error);
 
       setError(
         error instanceof Error
           ? error.message
-          : "Category could not be created.",
+          : "Category could not be updated.",
       );
     } finally {
       setSaving(false);
     }
+  }
+
+  // =========================================
+  // LOADING
+  // =========================================
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-100">
+        <div className="rounded-2xl border border-slate-200 bg-white px-10 py-8 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600" />
+
+          <p className="mt-4 font-semibold text-slate-600">
+            Loading category...
+          </p>
+        </div>
+      </div>
+    );
   }
 
   // =========================================
@@ -169,8 +250,8 @@ export default function AddCategoryPage() {
 
   return (
     <AdminLayout
-      title="Add Category"
-      subtitle="Create a new product category for VC Tech."
+      title="Edit Category"
+      subtitle="Update category information and storefront visibility."
     >
       <div className="mx-auto max-w-4xl">
 
@@ -192,127 +273,79 @@ export default function AddCategoryPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* CATEGORY INFORMATION */}
+          {/* BASIC INFORMATION */}
 
           <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-bold text-slate-900">
               Category Information
             </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Enter the basic information for this category.
-            </p>
-
             <div className="mt-6 space-y-5">
               {/* NAME */}
 
               <div>
-                <label
-                  htmlFor="category-name"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
                   Category Name *
                 </label>
 
                 <input
-                  id="category-name"
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  placeholder="Example: Desktop"
                   required
-                  autoComplete="off"
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                />
+              </div>
+
+              {/* CURRENT SLUG */}
+
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                  Current Slug
+                </label>
+
+                <input
+                  type="text"
+                  value={slug}
+                  readOnly
+                  className="w-full cursor-not-allowed rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-500"
                 />
 
                 <p className="mt-2 text-xs text-slate-500">
-                  The backend will automatically create the category slug.
-                </p>
-              </div>
-
-              {/* PARENT CATEGORY */}
-
-              <div>
-                <label
-                  htmlFor="parent-category"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
-                  Parent Category
-                </label>
-
-                <select
-                  id="parent-category"
-                  value={parentCategory}
-                  onChange={(event) =>
-                    setParentCategory(event.target.value)
-                  }
-                  disabled={loadingParents}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:cursor-not-allowed disabled:bg-slate-100"
-                >
-                  <option value="">
-                    {loadingParents
-                      ? "Loading categories..."
-                      : "None — Main Category"}
-                  </option>
-
-                  {parentCategories.map((category) => (
-                    <option
-                      key={category._id}
-                      value={category._id}
-                    >
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-
-                <p className="mt-2 text-xs text-slate-500">
-                  Leave this as Main Category, or select a parent to create a subcategory.
+                  Slug is generated automatically from the category name.
                 </p>
               </div>
 
               {/* DESCRIPTION */}
 
               <div>
-                <label
-                  htmlFor="category-description"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
                   Description
                 </label>
 
                 <textarea
-                  id="category-description"
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
                   rows={5}
-                  placeholder="Example: Desktop computers, custom PCs and accessories."
-                  className="w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                  placeholder="Category description"
+                  className="w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
                 />
               </div>
 
-              {/* IMAGE URL */}
+              {/* IMAGE */}
 
               <div>
-                <label
-                  htmlFor="category-image"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
                   Image URL
                 </label>
 
                 <input
-                  id="category-image"
                   type="text"
                   value={image}
                   onChange={(event) => setImage(event.target.value)}
                   placeholder="https://example.com/category.jpg"
-                  autoComplete="off"
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
                 />
-
-                <p className="mt-2 text-xs text-slate-500">
-                  Optional. You can leave this blank for now.
-                </p>
 
                 {image.trim() && (
                   <div className="mt-4">
@@ -323,7 +356,7 @@ export default function AddCategoryPage() {
                     <div className="flex h-40 w-40 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
                       <img
                         src={image}
-                        alt="Category preview"
+                        alt={name}
                         className="h-full w-full object-contain"
                       />
                     </div>
@@ -340,29 +373,21 @@ export default function AddCategoryPage() {
               Category Settings
             </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Control category visibility and display order.
-            </p>
-
             <div className="mt-6 space-y-5">
               {/* SORT ORDER */}
 
               <div>
-                <label
-                  htmlFor="sort-order"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
                   Sort Order
                 </label>
 
                 <input
-                  id="sort-order"
                   type="number"
                   min="0"
                   step="1"
                   value={sortOrder}
                   onChange={(event) => setSortOrder(event.target.value)}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
                 />
 
                 <p className="mt-2 text-xs text-slate-500">
@@ -370,7 +395,7 @@ export default function AddCategoryPage() {
                 </p>
               </div>
 
-              {/* ACTIVE STATUS */}
+              {/* ACTIVE */}
 
               <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <div>
@@ -379,7 +404,7 @@ export default function AddCategoryPage() {
                   </p>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Allow this category to appear on the storefront.
+                    Show this category on the public store.
                   </p>
                 </div>
 
@@ -387,7 +412,7 @@ export default function AddCategoryPage() {
                   type="checkbox"
                   checked={isActive}
                   onChange={(event) => setIsActive(event.target.checked)}
-                  className="h-5 w-5 cursor-pointer accent-orange-500"
+                  className="h-5 w-5 accent-orange-500"
                 />
               </label>
             </div>
@@ -398,7 +423,7 @@ export default function AddCategoryPage() {
           <div className="flex flex-col-reverse gap-3 pb-10 sm:flex-row sm:justify-end">
             <Link
               href="/admin/categories"
-              className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-center font-bold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-center font-bold text-slate-700"
             >
               Cancel
             </Link>
@@ -408,7 +433,7 @@ export default function AddCategoryPage() {
               disabled={saving}
               className="rounded-lg bg-orange-500 px-8 py-3 font-bold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {saving ? "Creating..." : "Create Category"}
+              {saving ? "Updating..." : "Update Category"}
             </button>
           </div>
         </form>

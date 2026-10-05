@@ -24,7 +24,7 @@ export default function CategorySection() {
   useEffect(() => {
     async function loadCategories() {
       try {
-        const response = await fetch(`${API_URL}/categories/main`);
+        const response = await fetch(`${API_URL}/categories`);
 
         if (!response.ok) return;
 

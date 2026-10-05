@@ -1,7 +1,6 @@
 import {
   IsBoolean,
   IsInt,
-  IsMongoId,
   IsOptional,
   IsString,
   Min,
@@ -21,10 +20,6 @@ export class UpdateCategoryDto {
   @IsOptional()
   @IsString()
   image?: string;
-
-  @IsOptional()
-  @IsMongoId()
-  parentCategory?: string | null;
 
   @IsOptional()
   @IsBoolean()

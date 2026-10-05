@@ -51,27 +51,6 @@ export class CategoriesController {
   }
 
   // =========================================
-  // PUBLIC - GET MAIN CATEGORIES
-  // =========================================
-
-  @Get('main')
-  findMainCategories() {
-    return this.categoriesService.findMainCategories(false);
-  }
-
-  // =========================================
-  // PUBLIC - GET SUBCATEGORIES BY PARENT
-  // =========================================
-
-  @Get(':parentId/subcategories')
-  findSubcategories(@Param('parentId') parentId: string) {
-    return this.categoriesService.findSubcategories(
-      parentId,
-      false,
-    );
-  }
-
-  // =========================================
   // PUBLIC - GET CATEGORY BY SLUG
   // =========================================
 

@@ -382,16 +382,15 @@ export default function Header({
                 </div>
 
                 {isOpen && (
-                  <div className="border-t border-slate-200 bg-white px-3 py-1.5">
+                  <div className="border-t border-slate-200 bg-white p-2">
                     {subcategories.map((subcategory) => (
                       <Link
                         key={subcategory._id}
                         href={`/category/${subcategory.slug}`}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-2 rounded-md px-3 py-1.5 text-[12px] font-medium leading-5 text-slate-600 transition hover:bg-orange-50 hover:text-orange-600"
+                        className="block rounded-md px-4 py-2.5 text-[13px] font-medium text-slate-600 transition hover:bg-orange-50 hover:text-orange-600"
                       >
-                        <span className="text-[10px] text-slate-400">└</span>
-                        <span>{subcategory.name}</span>
+                        ↳ {subcategory.name}
                       </Link>
                     ))}
                   </div>

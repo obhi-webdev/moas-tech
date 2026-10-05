@@ -15,6 +15,11 @@ interface Category {
   image?: string;
   isActive: boolean;
   sortOrder?: number;
+  parentCategory?: {
+    _id: string;
+    name: string;
+    slug: string;
+  } | null;
 }
 
 interface PageProps {
@@ -34,6 +39,9 @@ export default function EditCategoryPage({ params }: PageProps) {
   const [image, setImage] = useState("");
   const [sortOrder, setSortOrder] = useState("0");
   const [isActive, setIsActive] = useState(true);
+
+  const [parentCategory, setParentCategory] = useState("");
+  const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -56,12 +64,17 @@ export default function EditCategoryPage({ params }: PageProps) {
         setLoading(true);
         setError("");
 
-        const response = await fetch(`${API_URL}/categories/admin/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
+        const [response, parentsResponse] = await Promise.all([
+          fetch(`${API_URL}/categories/admin/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            cache: "no-store",
+          }),
+          fetch(`${API_URL}/categories/main`, {
+            cache: "no-store",
+          }),
+        ]);
 
         let data: Category | any = null;
 
@@ -88,12 +101,29 @@ export default function EditCategoryPage({ params }: PageProps) {
           throw new Error(message || "Category could not be loaded.");
         }
 
+        let parentsData: Category[] = [];
+
+        if (parentsResponse.ok) {
+          try {
+            const result = await parentsResponse.json();
+
+            parentsData = Array.isArray(result)
+              ? result.filter((category) => category._id !== id)
+              : [];
+          } catch {
+            parentsData = [];
+          }
+        }
+
+        setParentCategories(parentsData);
+
         setName(data.name || "");
         setSlug(data.slug || "");
         setDescription(data.description || "");
         setImage(data.image || "");
         setSortOrder(String(data.sortOrder ?? 0));
         setIsActive(data.isActive ?? true);
+        setParentCategory(data.parentCategory?._id || "");
       } catch (error) {
         console.error("Category loading error:", error);
 
@@ -155,6 +185,7 @@ export default function EditCategoryPage({ params }: PageProps) {
        * name
        * description
        * image
+       * parentCategory
        * isActive
        * sortOrder
        *
@@ -168,6 +199,7 @@ export default function EditCategoryPage({ params }: PageProps) {
         name: name.trim(),
         description: description.trim(),
         image: image.trim(),
+        parentCategory: parentCategory || null,
         isActive,
         sortOrder: numericSortOrder,
       };
@@ -313,6 +345,44 @@ export default function EditCategoryPage({ params }: PageProps) {
 
                 <p className="mt-2 text-xs text-slate-500">
                   Slug is generated automatically from the category name.
+                </p>
+              </div>
+
+              {/* PARENT CATEGORY */}
+
+              <div>
+                <label
+                  htmlFor="parent-category"
+                  className="mb-2 block text-sm font-semibold text-slate-700"
+                >
+                  Parent Category
+                </label>
+
+                <select
+                  id="parent-category"
+                  value={parentCategory}
+                  onChange={(event) =>
+                    setParentCategory(event.target.value)
+                  }
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                >
+                  <option value="">
+                    None — Main Category
+                  </option>
+
+                  {parentCategories.map((category) => (
+                    <option
+                      key={category._id}
+                      value={category._id}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+
+                <p className="mt-2 text-xs text-slate-500">
+                  Select a parent to make this a subcategory.
+                  Choose Main Category to remove its parent.
                 </p>
               </div>
 

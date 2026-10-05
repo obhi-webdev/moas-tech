@@ -1,18 +1,16 @@
 import {
   IsBoolean,
   IsInt,
-  IsMongoId,
   IsOptional,
   IsString,
   Min,
   MinLength,
 } from 'class-validator';
 
-export class UpdateCategoryDto {
-  @IsOptional()
+export class CreateCategoryDto {
   @IsString()
   @MinLength(2)
-  name?: string;
+  name: string;
 
   @IsOptional()
   @IsString()
@@ -21,10 +19,6 @@ export class UpdateCategoryDto {
   @IsOptional()
   @IsString()
   image?: string;
-
-  @IsOptional()
-  @IsMongoId()
-  parentCategory?: string | null;
 
   @IsOptional()
   @IsBoolean()

@@ -13,11 +13,6 @@ interface Category {
   _id: string;
   name: string;
   slug: string;
-  parentCategory?: {
-    _id: string;
-    name: string;
-    slug: string;
-  } | null;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
@@ -29,7 +24,6 @@ export default function Header({
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
 
   const { cartCount } = useCart();
 
@@ -62,17 +56,6 @@ export default function Header({
   }
 
   const whatsappNumber = whatsapp.replace(/\D/g, "");
-
-  const mainCategories = categories.filter(
-    (category) => !category.parentCategory,
-  );
-
-  function getSubcategories(parentId: string) {
-    return categories.filter(
-      (category) =>
-        category.parentCategory?._id === parentId,
-    );
-  }
 
   return (
     <>
@@ -232,8 +215,8 @@ export default function Header({
       </header>
 
       {/* DESKTOP CATEGORY NAVIGATION */}
-      <nav className="sticky top-0 z-[100] hidden overflow-visible border-b border-slate-200 bg-white shadow-sm lg:block">
-        <div className="mx-auto flex max-w-7xl items-center gap-6 overflow-visible px-4 py-3 text-[13px] font-semibold text-slate-800">
+      <nav className="sticky top-0 z-40 hidden border-b border-slate-200 bg-white shadow-sm lg:block">
+        <div className="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-4 py-3 text-[13px] font-semibold text-slate-800">
           <Link
             href="/"
             className="relative shrink-0 py-1 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full"
@@ -248,45 +231,15 @@ export default function Header({
             All Products
           </Link>
 
-          {mainCategories.map((category) => {
-            const subcategories = getSubcategories(category._id);
-
-            return (
-              <div
-                key={category._id}
-                className="group/category relative shrink-0"
-              >
-                <Link
-                  href={`/category/${category.slug}`}
-                  className="relative flex items-center gap-1 whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full"
-                >
-                  {category.name}
-
-                  {subcategories.length > 0 && (
-                    <span className="text-[10px] transition-transform duration-200 group-hover/category:rotate-180">
-                      ▼
-                    </span>
-                  )}
-                </Link>
-
-                {subcategories.length > 0 && (
-                  <div className="invisible absolute left-0 top-full z-[110] min-w-[210px] translate-y-2 pt-3 opacity-0 transition-all duration-200 group-hover/category:visible group-hover/category:translate-y-0 group-hover/category:opacity-100">
-                    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white py-2 shadow-xl">
-                      {subcategories.map((subcategory) => (
-                        <Link
-                          key={subcategory._id}
-                          href={`/category/${subcategory.slug}`}
-                          className="block whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold text-slate-700 transition hover:bg-orange-50 hover:text-orange-600"
-                        >
-                          {subcategory.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {categories.map((category) => (
+            <Link
+              key={category._id}
+              href={`/category/${category.slug}`}
+              className="relative shrink-0 whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full"
+            >
+              {category.name}
+            </Link>
+          ))}
 
           <Link
             href="/shop?featured=true"
@@ -330,75 +283,16 @@ export default function Header({
             All Products
           </Link>
 
-          {mainCategories.map((category) => {
-            const subcategories = getSubcategories(category._id);
-            const isOpen = mobileCategoryOpen === category._id;
-
-            if (subcategories.length === 0) {
-              return (
-                <Link
-                  key={category._id}
-                  href={`/category/${category.slug}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
-                >
-                  {category.name}
-                </Link>
-              );
-            }
-
-            return (
-              <div
-                key={category._id}
-                className="col-span-2 overflow-hidden rounded-lg bg-slate-50"
-              >
-                <div className="flex items-center">
-                  <Link
-                    href={`/category/${category.slug}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="min-w-0 flex-1 px-4 py-3 transition hover:text-orange-600"
-                  >
-                    {category.name}
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMobileCategoryOpen(
-                        isOpen ? null : category._id,
-                      )
-                    }
-                    aria-label={`Toggle ${category.name} subcategories`}
-                    className="flex h-full min-h-[44px] w-12 items-center justify-center border-l border-slate-200 text-slate-500 transition hover:bg-orange-50 hover:text-orange-600"
-                  >
-                    <span
-                      className={`transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
-                    >
-                      ▼
-                    </span>
-                  </button>
-                </div>
-
-                {isOpen && (
-                  <div className="border-t border-slate-200 bg-white px-3 py-1.5">
-                    {subcategories.map((subcategory) => (
-                      <Link
-                        key={subcategory._id}
-                        href={`/category/${subcategory.slug}`}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-2 rounded-md px-3 py-1.5 text-[12px] font-medium leading-5 text-slate-600 transition hover:bg-orange-50 hover:text-orange-600"
-                      >
-                        <span className="text-[10px] text-slate-400">└</span>
-                        <span>{subcategory.name}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {categories.map((category) => (
+            <Link
+              key={category._id}
+              href={`/category/${category.slug}`}
+              onClick={() => setMobileMenuOpen(false)}
+              className="rounded-lg bg-slate-50 px-4 py-3 transition-all duration-200 hover:bg-orange-50 hover:text-orange-600 active:scale-[0.98]"
+            >
+              {category.name}
+            </Link>
+          ))}
 
           <Link
             href="/shop?featured=true"

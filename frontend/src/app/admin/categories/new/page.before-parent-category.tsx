@@ -7,12 +7,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
-interface ParentCategory {
-  _id: string;
-  name: string;
-  slug: string;
-}
-
 export default function AddCategoryPage() {
   const router = useRouter();
 
@@ -21,10 +15,6 @@ export default function AddCategoryPage() {
   const [image, setImage] = useState("");
   const [sortOrder, setSortOrder] = useState("0");
   const [isActive, setIsActive] = useState(true);
-
-  const [parentCategory, setParentCategory] = useState("");
-  const [parentCategories, setParentCategories] = useState<ParentCategory[]>([]);
-  const [loadingParents, setLoadingParents] = useState(true);
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -40,38 +30,6 @@ export default function AddCategoryPage() {
       router.replace("/admin/login");
     }
   }, [router]);
-
-  // =========================================
-  // LOAD MAIN CATEGORIES
-  // =========================================
-
-  useEffect(() => {
-    async function loadParentCategories() {
-      try {
-        setLoadingParents(true);
-
-        const response = await fetch(`${API_URL}/categories/main`, {
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          throw new Error("Parent categories could not be loaded.");
-        }
-
-        const data = await response.json();
-
-        setParentCategories(
-          Array.isArray(data) ? data : [],
-        );
-      } catch (error) {
-        console.error("Parent category loading error:", error);
-      } finally {
-        setLoadingParents(false);
-      }
-    }
-
-    loadParentCategories();
-  }, []);
 
   // =========================================
   // CREATE CATEGORY
@@ -110,7 +68,6 @@ export default function AddCategoryPage() {
         name: name.trim(),
         description: description.trim(),
         image: image.trim(),
-        parentCategory: parentCategory || null,
         isActive,
         sortOrder: numericSortOrder,
       };
@@ -227,46 +184,6 @@ export default function AddCategoryPage() {
 
                 <p className="mt-2 text-xs text-slate-500">
                   The backend will automatically create the category slug.
-                </p>
-              </div>
-
-              {/* PARENT CATEGORY */}
-
-              <div>
-                <label
-                  htmlFor="parent-category"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
-                >
-                  Parent Category
-                </label>
-
-                <select
-                  id="parent-category"
-                  value={parentCategory}
-                  onChange={(event) =>
-                    setParentCategory(event.target.value)
-                  }
-                  disabled={loadingParents}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:cursor-not-allowed disabled:bg-slate-100"
-                >
-                  <option value="">
-                    {loadingParents
-                      ? "Loading categories..."
-                      : "None — Main Category"}
-                  </option>
-
-                  {parentCategories.map((category) => (
-                    <option
-                      key={category._id}
-                      value={category._id}
-                    >
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-
-                <p className="mt-2 text-xs text-slate-500">
-                  Leave this as Main Category, or select a parent to create a subcategory.
                 </p>
               </div>
 
