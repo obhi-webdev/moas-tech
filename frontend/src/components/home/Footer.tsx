@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export default function Footer() {
-  const phone = "01737092358";
-  const whatsapp = "8801737092358";
+  const phone = "+8809696492358";
+  const whatsapp = "8809696492358";
 
   return (
     <footer className="bg-[#071724] text-slate-300">

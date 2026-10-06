@@ -343,7 +343,7 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <>
-        <Header phone="01737092358" whatsapp="01737092358" />
+        <Header phone="+8809696492358" whatsapp="8809696492358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-3xl px-4 py-16">
@@ -377,7 +377,7 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <Header phone="01737092358" whatsapp="01737092358" />
+      <Header phone="+8809696492358" whatsapp="8809696492358" />
 
       <main className="min-h-screen bg-[#f1f3f6]">
         <div className="mx-auto max-w-7xl px-4 py-8">

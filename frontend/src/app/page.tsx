@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <Header
-        phone="01737092358"
-        whatsapp="01737092358"
+        phone="+8809696492358"
+        whatsapp="8809696492358"
       />
 
       <main>

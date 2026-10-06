@@ -13,8 +13,8 @@ function OrderSuccessContent() {
   return (
     <>
       <Header
-        phone="01737092358"
-        whatsapp="01737092358"
+        phone="+8809696492358"
+        whatsapp="8809696492358"
       />
 
       <main className="min-h-screen bg-slate-50">

@@ -23,8 +23,8 @@ interface Category {
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 export default function Header({
-  phone = "01737092358",
-  whatsapp = "01737092358",
+  phone = "+8809696492358",
+  whatsapp = "+8809696492358",
 }: HeaderProps) {
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);

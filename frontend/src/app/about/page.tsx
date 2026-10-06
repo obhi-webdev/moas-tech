@@ -7,8 +7,8 @@ export default function AboutPage() {
   return (
     <>
       <Header
-        phone="01737092358"
-        whatsapp="01737092358"
+        phone="+8809696492358"
+        whatsapp="8809696492358"
       />
 
       <main className="min-h-screen bg-slate-50">
@@ -39,7 +39,7 @@ export default function AboutPage() {
               </Link>
 
               <a
-                href="https://wa.me/8801737092358"
+                href="https://wa.me/8809696492358"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700 transition hover:bg-slate-50"
@@ -151,7 +151,7 @@ export default function AboutPage() {
             </p>
 
             <a
-              href="https://wa.me/8801737092358"
+              href="https://wa.me/8809696492358"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex rounded-xl bg-white px-7 py-3.5 font-bold text-blue-700 transition hover:bg-slate-100"
