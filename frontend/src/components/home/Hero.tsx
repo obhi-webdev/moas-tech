@@ -1,7 +1,122 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:5001/api";
+
+type BannerPosition =
+  | "main"
+  | "side-one"
+  | "side-two";
+
+interface Banner {
+  _id?: string;
+  position: BannerPosition;
+  image: string;
+  link: string;
+  alt: string;
+  isActive: boolean;
+}
+
+const defaultBanners: Record<BannerPosition, Banner> = {
+  main: {
+    position: "main",
+    image: "/hero-banner.png",
+    link: "/shop",
+    alt: "VC Tech",
+    isActive: true,
+  },
+
+  "side-one": {
+    position: "side-one",
+    image: "/side-banner-1.jpg",
+    link: "/shop?offer=true",
+    alt: "VC Tech Special Offer",
+    isActive: true,
+  },
+
+  "side-two": {
+    position: "side-two",
+    image: "/side-banner-2.jpg",
+    link: "/orders/track",
+    alt: "VC Tech Order Support",
+    isActive: true,
+  },
+};
 
 export default function Hero() {
+  const [banners, setBanners] =
+    useState<Record<BannerPosition, Banner>>(
+      defaultBanners,
+    );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadBanners() {
+      try {
+        const response = await fetch(
+          `${API_URL}/banners`,
+          {
+            cache: "no-store",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Failed to load homepage banners",
+          );
+        }
+
+        const data: Banner[] =
+          await response.json();
+
+        if (
+          cancelled ||
+          !Array.isArray(data)
+        ) {
+          return;
+        }
+
+        const next = {
+          ...defaultBanners,
+        };
+
+        for (const banner of data) {
+          if (banner.position in next) {
+            next[banner.position] = {
+              ...next[banner.position],
+              ...banner,
+            };
+          }
+        }
+
+        setBanners(next);
+      } catch (error) {
+        console.error(
+          "Hero banner loading error:",
+          error,
+        );
+      }
+    }
+
+    loadBanners();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const mainBanner = banners.main;
+  const sideOneBanner =
+    banners["side-one"];
+  const sideTwoBanner =
+    banners["side-two"];
+
   return (
     <section className="bg-[#f1f3f6]">
       <div className="mx-auto max-w-7xl px-2 pb-5 pt-4 sm:px-4 sm:pt-5">
@@ -9,55 +124,67 @@ export default function Hero() {
         <div className="grid gap-4 lg:grid-cols-[minmax(0,2.25fr)_320px]">
 
           {/* MAIN BANNER */}
-          <Link
-            href="/shop"
-            className="group relative block aspect-[2659/984] overflow-hidden rounded-lg bg-white lg:aspect-auto lg:min-h-[430px] lg:h-full"
-          >
-            <Image
-              src="/hero-banner.png"
-              alt="VC Tech"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 900px"
-              className="object-contain object-center transition-transform duration-500 lg:object-cover lg:group-hover:scale-[1.02]"
-            />
+          {mainBanner.isActive && (
+            <Link
+              href={mainBanner.link || "/"}
+              className="group relative block aspect-[2659/984] overflow-hidden rounded-lg bg-white lg:aspect-auto lg:min-h-[430px] lg:h-full"
+            >
+              <Image
+                src={mainBanner.image}
+                alt={mainBanner.alt || "VC Tech"}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 900px"
+                className="object-contain object-center transition-transform duration-500 lg:object-cover lg:group-hover:scale-[1.02]"
+              />
 
-            {/* ORDER NOW BUTTON */}
-            <span className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-md transition-all duration-300 hover:bg-orange-600 md:bottom-6 md:left-6 md:px-6 md:py-3 md:text-sm lg:bottom-10 lg:left-10 lg:px-8 lg:py-4 lg:text-base">
-              অর্ডার করুন →
-            </span>
-          </Link>
+              {/* ORDER NOW BUTTON */}
+              <span className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-md transition-all duration-300 hover:bg-orange-600 md:bottom-6 md:left-6 md:px-6 md:py-3 md:text-sm lg:bottom-10 lg:left-10 lg:px-8 lg:py-4 lg:text-base">
+                অর্ডার করুন →
+              </span>
+            </Link>
+          )}
 
           {/* RIGHT SIDE */}
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4">
 
             {/* SIDE BANNER 1 */}
-            <Link
-              href="/shop?offer=true"
-              className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
-            >
-              <Image
-                src="/side-banner-1.jpg"
-                alt="VC Tech Special Offer"
-                fill
-                sizes="(max-width: 1024px) 50vw, 320px"
-                className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-            </Link>
+            {sideOneBanner.isActive && (
+              <Link
+                href={sideOneBanner.link || "/"}
+                className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
+              >
+                <Image
+                  src={sideOneBanner.image}
+                  alt={
+                    sideOneBanner.alt ||
+                    "VC Tech Special Offer"
+                  }
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 320px"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </Link>
+            )}
 
             {/* SIDE BANNER 2 */}
-            <Link
-              href="/orders/track"
-              className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
-            >
-              <Image
-                src="/side-banner-2.jpg"
-                alt="VC Tech Order Support"
-                fill
-                sizes="(max-width: 1024px) 50vw, 320px"
-                className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-            </Link>
+            {sideTwoBanner.isActive && (
+              <Link
+                href={sideTwoBanner.link || "/"}
+                className="group relative h-[135px] overflow-hidden rounded-lg bg-slate-100 sm:h-[180px] lg:h-auto lg:min-h-0"
+              >
+                <Image
+                  src={sideTwoBanner.image}
+                  alt={
+                    sideTwoBanner.alt ||
+                    "VC Tech Order Support"
+                  }
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 320px"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </Link>
+            )}
 
           </div>
         </div>

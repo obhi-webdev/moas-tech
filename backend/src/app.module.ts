@@ -13,6 +13,7 @@ import { OrdersModule } from './orders/orders.module.js';
 import { SettingsModule } from './settings/settings.module.js';
 import { DashboardModule } from './dashboard/dashboard.module.js';
 import { UploadsModule } from './uploads/uploads.module.js';
+import { BannersModule } from './banners/banners.module.js';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UploadsModule } from './uploads/uploads.module.js';
     SettingsModule,
     DashboardModule,
     UploadsModule,
+    BannersModule,
   ],
 
   controllers: [AppController],

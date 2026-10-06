@@ -107,4 +107,105 @@ export class UploadsController {
       );
     }
   }
+
+  @Post('banner')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: memoryStorage(),
+
+      limits: {
+        fileSize: 5 * 1024 * 1024,
+      },
+
+      fileFilter: (req, file, callback) => {
+        const allowedTypes = [
+          'image/jpeg',
+          'image/png',
+          'image/webp',
+        ];
+
+        if (!allowedTypes.includes(file.mimetype)) {
+          return callback(
+            new BadRequestException(
+              'Only JPG, PNG and WEBP images are allowed',
+            ),
+            false,
+          );
+        }
+
+        callback(null, true);
+      },
+    }),
+  )
+  async uploadBannerImage(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException(
+        'Banner image is required',
+      );
+    }
+
+    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+
+    if (!privateKey) {
+      throw new InternalServerErrorException(
+        'ImageKit configuration is missing',
+      );
+    }
+
+    try {
+      const imagekit = new ImageKit({
+        privateKey,
+      });
+
+      const safeName = file.originalname
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+      const extension =
+        file.originalname
+          .split('.')
+          .pop()
+          ?.toLowerCase() || 'jpg';
+
+      const fileName =
+        `${safeName || 'banner'}-${Date.now()}.${extension}`;
+
+      const result = await imagekit.files.upload({
+        file: await toFile(
+          file.buffer,
+          file.originalname,
+        ),
+        fileName,
+        folder: '/vc-tech/banners',
+        useUniqueFileName: true,
+      });
+
+      if (!result.url) {
+        throw new Error(
+          'ImageKit did not return an image URL',
+        );
+      }
+
+      return {
+        message: 'Banner image uploaded successfully',
+        image: result.url,
+        fileId: result.fileId,
+      };
+    } catch (error) {
+      console.error(
+        'Banner ImageKit upload error:',
+        error,
+      );
+
+      throw new InternalServerErrorException(
+        'Banner image upload failed',
+      );
+    }
+  }
+
+
 }
