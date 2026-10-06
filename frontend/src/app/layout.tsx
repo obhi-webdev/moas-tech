@@ -20,8 +20,70 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata: Metadata = {
-  title: "VC Tech",
-  description: "Computers, laptops and technology products from VC Tech",
+  metadataBase: new URL("https://vctechbd.com"),
+
+  title: {
+    default: "VC Tech | Computer, Laptop & Technology Products in Bangladesh",
+    template: "%s | VC Tech",
+  },
+
+  description:
+    "Shop computers, laptops, accessories, gadgets and technology products from VC Tech Bangladesh. Explore latest products, prices and order online.",
+
+  keywords: [
+    "VC Tech",
+    "VC Tech Bangladesh",
+    "computer shop Bangladesh",
+    "laptop price in Bangladesh",
+    "computer accessories Bangladesh",
+    "technology products Bangladesh",
+    "gadgets Bangladesh",
+    "computer components Bangladesh",
+  ],
+
+  authors: [
+    {
+      name: "VC Tech",
+    },
+  ],
+
+  creator: "VC Tech",
+  publisher: "VC Tech",
+
+  alternates: {
+    canonical: "/",
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_BD",
+    url: "/",
+    siteName: "VC Tech",
+    title:
+      "VC Tech | Computer, Laptop & Technology Products in Bangladesh",
+    description:
+      "Shop computers, laptops, accessories, gadgets and technology products from VC Tech Bangladesh.",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "VC Tech | Computer, Laptop & Technology Products in Bangladesh",
+    description:
+      "Shop computers, laptops, accessories, gadgets and technology products from VC Tech Bangladesh.",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
