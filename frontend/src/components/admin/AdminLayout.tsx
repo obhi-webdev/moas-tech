@@ -36,6 +36,11 @@ const navigation = [
     href: "/admin/banners",
     icon: "▧",
   },
+  {
+    name: "Branding",
+    href: "/admin/branding",
+    icon: "◈",
+  },
 ];
 
 export default function AdminLayout({

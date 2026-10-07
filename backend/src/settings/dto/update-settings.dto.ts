@@ -41,6 +41,10 @@ export class UpdateSettingsDto {
 
   @IsOptional()
   @IsString()
+  logoFileId?: string;
+
+  @IsOptional()
+  @IsString()
   primaryColor?: string;
 
   @IsOptional()

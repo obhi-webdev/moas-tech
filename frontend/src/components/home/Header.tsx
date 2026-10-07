@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import SiteLogo from "@/components/home/SiteLogo";
 
 interface HeaderProps {
   phone?: string;
@@ -27,11 +28,56 @@ export default function Header({
   whatsapp = "+8809696492358",
 }: HeaderProps) {
   const [search, setSearch] = useState("");
+  const [address, setAddress] = useState("Mymensingh, Bangladesh");
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
 
   const { cartCount } = useCart();
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const response = await fetch(`${API_URL}/settings`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data?.address) {
+          setAddress(data.address);
+        }
+      } catch (error) {
+        console.error("Header settings loading error:", error);
+      }
+    }
+
+    loadSettings();
+  }, []);
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const response = await fetch(`${API_URL}/settings`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data?.address) {
+          setAddress(data.address);
+        }
+      } catch (error) {
+        console.error("Header settings loading error:", error);
+      }
+    }
+
+    loadSettings();
+  }, []);
 
   useEffect(() => {
     async function loadCategories() {
@@ -76,7 +122,7 @@ export default function Header({
 
   return (
     <>
-      <header className="relative z-50 bg-[#071724] text-white">
+      <header className="relative z-[120] bg-[#071724] text-white lg:sticky lg:top-0">
         {/* MAIN HEADER */}
         <div className="mx-auto flex max-w-7xl items-center gap-5 px-4 py-4">
           {/* MOBILE MENU */}
@@ -115,14 +161,7 @@ export default function Header({
             href="/"
             className="group/logo min-w-fit shrink-0 leading-none transition-transform duration-300 md:hover:scale-[1.02]"
           >
-            <div className="text-2xl font-black tracking-tight md:text-3xl">
-              <span className="text-orange-500">VC</span>
-              <span className="text-white"> TECH</span>
-            </div>
-
-            <div className="mt-1 hidden text-[9px] font-semibold uppercase tracking-[0.28em] text-slate-400 sm:block">
-              Technology Store
-            </div>
+            <SiteLogo location="header" />
           </Link>
 
           {/* DESKTOP SEARCH */}
@@ -189,7 +228,7 @@ export default function Header({
 
               <div>
                 <p className="text-sm font-bold">Account</p>
-                <p className="text-[11px] text-slate-400">Admin Login</p>
+                
               </div>
             </Link>
 
@@ -232,7 +271,7 @@ export default function Header({
       </header>
 
       {/* DESKTOP CATEGORY NAVIGATION */}
-      <nav className="sticky top-0 z-[100] hidden overflow-visible border-b border-slate-200 bg-white shadow-sm lg:block">
+      <nav className="relative z-[100] hidden overflow-visible border-b border-slate-200 bg-white shadow-sm lg:block">
         <div className="mx-auto flex max-w-7xl items-center gap-6 overflow-visible px-4 py-3 text-[13px] font-semibold text-slate-800">
           <Link
             href="/"
@@ -443,7 +482,7 @@ export default function Header({
         </div>
 
         <div className="border-t border-slate-100 px-4 py-3 text-xs text-slate-500">
-          {phone} · Mymensingh, Bangladesh
+          {phone} · {address}
         </div>
       </div>
     </>

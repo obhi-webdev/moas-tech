@@ -1,6 +1,47 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import SiteLogo from "@/components/home/SiteLogo";
+
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:5001/api";
 
 export default function Footer() {
+  const [address, setAddress] = useState(
+    "Mymensingh, Bangladesh",
+  );
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const response = await fetch(
+          `${API_URL}/settings`,
+          {
+            cache: "no-store",
+          },
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data?.address) {
+          setAddress(data.address);
+        }
+      } catch (error) {
+        console.error(
+          "Footer settings loading error:",
+          error,
+        );
+      }
+    }
+
+    loadSettings();
+  }, []);
+
   const phone = "+8809696492358";
   const whatsapp = "8809696492358";
 
@@ -141,14 +182,7 @@ export default function Footer() {
               href="/"
               className="mt-6 inline-block"
             >
-              <div className="text-2xl font-black tracking-tight">
-                <span className="text-orange-500">
-                  VC
-                </span>{" "}
-                <span className="text-white">
-                  TECH
-                </span>
-              </div>
+              <SiteLogo location="footer" />
             </Link>
 
             <p className="mt-5 text-sm leading-6 text-slate-400">
@@ -159,7 +193,7 @@ export default function Footer() {
 
             <div className="mt-5 text-sm">
               <p className="font-semibold text-white">
-                Mymensingh, Bangladesh
+                {address}
               </p>
 
               <p className="mt-2 text-slate-400">

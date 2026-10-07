@@ -65,6 +65,12 @@ export class Setting {
   logo: string;
 
   @Prop({
+    default: '',
+    trim: true,
+  })
+  logoFileId: string;
+
+  @Prop({
     default: 'blue',
   })
   primaryColor: string;

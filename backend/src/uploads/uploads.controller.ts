@@ -208,4 +208,104 @@ export class UploadsController {
   }
 
 
+
+  @Post('logo')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: memoryStorage(),
+
+      limits: {
+        fileSize: 3 * 1024 * 1024,
+      },
+
+      fileFilter: (req, file, callback) => {
+        const allowedTypes = [
+          'image/jpeg',
+          'image/png',
+          'image/webp',
+        ];
+
+        if (!allowedTypes.includes(file.mimetype)) {
+          return callback(
+            new BadRequestException(
+              'Only JPG, PNG and WEBP logo images are allowed',
+            ),
+            false,
+          );
+        }
+
+        callback(null, true);
+      },
+    }),
+  )
+  async uploadLogoImage(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException(
+        'Logo image is required',
+      );
+    }
+
+    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+
+    if (!privateKey) {
+      throw new InternalServerErrorException(
+        'ImageKit configuration is missing',
+      );
+    }
+
+    try {
+      const imagekit = new ImageKit({
+        privateKey,
+      });
+
+      const safeName = file.originalname
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+      const extension =
+        file.originalname
+          .split('.')
+          .pop()
+          ?.toLowerCase() || 'png';
+
+      const fileName =
+        `${safeName || 'logo'}-${Date.now()}.${extension}`;
+
+      const result = await imagekit.files.upload({
+        file: await toFile(
+          file.buffer,
+          file.originalname,
+        ),
+        fileName,
+        folder: '/vc-tech/branding',
+        useUniqueFileName: true,
+      });
+
+      if (!result.url) {
+        throw new Error(
+          'ImageKit did not return a logo URL',
+        );
+      }
+
+      return {
+        message: 'Logo uploaded successfully',
+        image: result.url,
+        fileId: result.fileId,
+      };
+    } catch (error) {
+      console.error(
+        'Logo ImageKit upload error:',
+        error,
+      );
+
+      throw new InternalServerErrorException(
+        'Logo image upload failed',
+      );
+    }
+  }
+
 }

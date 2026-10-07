@@ -64,7 +64,7 @@ export default function CheckoutPage() {
 
   const [email, setEmail] = useState("");
 
-  const [district, setDistrict] = useState("Mymensingh");
+  const [district, setDistrict] = useState("Comilla");
 
   const [address, setAddress] = useState("");
 
@@ -571,7 +571,7 @@ export default function CheckoutPage() {
 
                       <div>
                         <p className="font-bold text-slate-900">
-                          Mymensingh City
+                          Comilla City
                         </p>
 
                         <p className="mt-1 text-sm text-slate-500">
@@ -608,7 +608,7 @@ export default function CheckoutPage() {
                         <p className="font-bold text-slate-900">Outside City</p>
 
                         <p className="mt-1 text-sm text-slate-500">
-                          Outside Mymensingh city
+                          Outside Comilla city
                         </p>
 
                         <p className="mt-2 font-black text-orange-500">
