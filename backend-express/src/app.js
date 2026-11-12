@@ -1,3 +1,4 @@
+import analyticsRoutes from "./modules/analytics/analytics.routes.js";
 import landingPageRoutes from "./modules/landing-pages/landing-page.routes.js";
 import uploadRoutes from "./modules/uploads/upload.routes.js";
 import metaRoutes from "./modules/meta/meta.routes.js";
@@ -34,6 +35,7 @@ app.use("/api/settings", settingRoutes);
 app.use("/api/banners", bannerRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/landing-pages", landingPageRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({

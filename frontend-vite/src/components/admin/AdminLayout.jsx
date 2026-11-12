@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 
 const navigation = [
   {
+    name: "Analytics",
+    href: "/admin/analytics",
+    icon: "▥",
+  },
+  {
     name: "Dashboard",
     href: "/admin/dashboard",
     icon: "▦",

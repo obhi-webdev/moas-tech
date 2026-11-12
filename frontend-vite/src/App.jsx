@@ -1,3 +1,5 @@
+import AdminAnalytics from "./pages/admin/Analytics";
+import PageTracker from "./components/analytics/PageTracker";
 import LandingPage from "./pages/LandingPage";
 import AdminLandingPages from "./pages/admin/LandingPages";
 import PremiumCursor from "./components/ui/PremiumCursor";
@@ -28,6 +30,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <PremiumCursor />
+      <PageTracker />
       <CartProvider>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -49,6 +52,7 @@ export default function App() {
         <Route path="/admin/meta-marketing" element={<MetaMarketing />} />
         <Route path="/admin/banners" element={<AdminBanners />} />
                   <Route path="/admin/landing-pages" element={<AdminLandingPages />} />
+        <Route path="/admin/analytics" element={<AdminAnalytics />} />
         <Route path="/admin/:section" element={<AdminSection />} />
         <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
