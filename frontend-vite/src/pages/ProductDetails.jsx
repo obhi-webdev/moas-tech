@@ -222,7 +222,7 @@ function ProductDetailsPage() {
   }
   if (loading) {
     return <>
-        <Header phone="+8809696492358" whatsapp="8809696492358" />
+        <Header phone="+8801737092358" whatsapp="8801737092358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-7xl px-4 py-12">
@@ -235,7 +235,7 @@ function ProductDetailsPage() {
   }
   if (error || !product) {
     return <>
-        <Header phone="+8809696492358" whatsapp="8809696492358" />
+        <Header phone="+8801737092358" whatsapp="8801737092358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-7xl px-4 py-12">
@@ -261,7 +261,7 @@ function ProductDetailsPage() {
   const price = hasSale ? product.salePrice : product.regularPrice;
   const image = product.images?.[selectedImage];
   return <>
-      <Header phone="+8809696492358" whatsapp="8809696492358" />
+      <Header phone="+8801737092358" whatsapp="8801737092358" />
 
       <main className="min-h-screen bg-[#f1f3f6]">
         <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">

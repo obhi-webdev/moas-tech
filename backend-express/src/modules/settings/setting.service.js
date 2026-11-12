@@ -2,8 +2,8 @@ import { Setting } from "../../models/setting.model.js";
 
 const DEFAULT_SETTINGS = {
   siteName: "VC Tech",
-  phone: "01614106550",
-  whatsapp: "01614106550",
+  phone: "01737092358",
+  whatsapp: "01737092358",
   email: "",
   address: "Mymensingh, Bangladesh",
   deliveryChargeInside: 0,

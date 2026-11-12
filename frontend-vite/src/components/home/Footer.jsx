@@ -30,8 +30,8 @@ function Footer() {
     }
     loadSettings();
   }, []);
-  const phone = "+8809696492358";
-  const whatsapp = "8809696492358";
+  const phone = "+8801737092358";
+  const whatsapp = "8801737092358";
   return <footer className="bg-[#071724] text-slate-300">
       {
     /* MAIN FOOTER */

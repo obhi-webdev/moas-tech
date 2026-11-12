@@ -5,8 +5,8 @@ import { useCart } from "@/context/CartContext";
 import SiteLogo from "@/components/home/SiteLogo";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
 function Header({
-  phone = "+8809696492358",
-  whatsapp = "+8809696492358"
+  phone = "+8801737092358",
+  whatsapp = "+8801737092358"
 }) {
   const [search, setSearch] = useState("");
   const [address, setAddress] = useState("Mymensingh, Bangladesh");

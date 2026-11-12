@@ -7,8 +7,8 @@ import RevealSection from "@/components/home/RevealSection";
 function Home() {
   return <>
       <Header
-    phone="+8809696492358"
-    whatsapp="8809696492358"
+    phone="+8801737092358"
+    whatsapp="8801737092358"
   />
 
       <main>

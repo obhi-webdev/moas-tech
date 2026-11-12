@@ -266,8 +266,8 @@ function ShopContent() {
   }
   return <>
       <Header
-    phone="+8809696492358"
-    whatsapp="8809696492358"
+    phone="+8801737092358"
+    whatsapp="8801737092358"
   />
 
       <main className="min-h-screen bg-[#f1f3f6]">

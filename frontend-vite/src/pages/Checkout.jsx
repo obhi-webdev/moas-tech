@@ -166,7 +166,7 @@ function CheckoutPage() {
   }
   if (items.length === 0) {
     return <>
-        <Header phone="+8809696492358" whatsapp="8809696492358" />
+        <Header phone="+8801737092358" whatsapp="8801737092358" />
 
         <main className="min-h-screen bg-[#f1f3f6]">
           <div className="mx-auto max-w-3xl px-4 py-16">
@@ -193,7 +193,7 @@ function CheckoutPage() {
       </>;
   }
   return <>
-      <Header phone="+8809696492358" whatsapp="8809696492358" />
+      <Header phone="+8801737092358" whatsapp="8801737092358" />
 
       <main className="min-h-screen bg-[#f1f3f6]">
         <div className="mx-auto max-w-7xl px-4 py-8">
