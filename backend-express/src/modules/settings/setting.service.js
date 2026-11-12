@@ -11,6 +11,9 @@ const DEFAULT_SETTINGS = {
   facebook: "",
   logo: "",
   logoFileId: "",
+  siteTitle: "VC Tech | Gadgets & Electronics",
+  favicon: "",
+  faviconFileId: "",
   primaryColor: "blue",
   secondaryColor: "orange",
 };

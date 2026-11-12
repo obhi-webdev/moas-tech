@@ -56,6 +56,27 @@ const settingSchema = new mongoose.Schema(
       trim: true,
     },
 
+    siteTitle: {
+      type: String,
+      default: "VC Tech | Gadgets & Electronics",
+      trim: true,
+      maxlength: 150,
+    },
+
+    favicon: {
+      type: String,
+      default: "",
+      trim: true,
+      maxlength: 2000,
+    },
+
+    faviconFileId: {
+      type: String,
+      default: "",
+      trim: true,
+      maxlength: 500,
+    },
+
     logoFileId: {
       type: String,
       default: "",

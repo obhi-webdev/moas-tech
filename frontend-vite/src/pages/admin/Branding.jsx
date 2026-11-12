@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { adminRequest, getAdminToken } from "../../lib/adminApi";
+import { API_URL } from "../../lib/api";
 
 export default function Branding() {
   const [settings, setSettings] = useState({});
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [address, setAddress] = useState("");
+  const [siteTitle, setSiteTitle] = useState("");
+  const [faviconFile, setFaviconFile] = useState(null);
+  const [faviconPreview, setFaviconPreview] = useState("");
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -19,6 +23,8 @@ export default function Branding() {
       setSettings(value);
       setPreview(value.logo || "");
       setAddress(value.address || "");
+      setSiteTitle(value.siteTitle || value.siteName || "VC Tech");
+      setFaviconPreview(value.favicon || "");
     } catch (err) {
       setError(err.message);
     }
@@ -116,6 +122,138 @@ export default function Branding() {
 
       setFile(null);
       setMessage("Website logo removed.");
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy("");
+    }
+  }
+
+  function chooseFavicon(event) {
+    const selected = event.target.files?.[0];
+    if (!selected) return;
+
+    if (!["image/png", "image/jpeg", "image/webp"].includes(selected.type)) {
+      setError("Only PNG, JPG or WebP favicon images are allowed.");
+      return;
+    }
+
+    if (selected.size > 1024 * 1024) {
+      setError("Favicon must be smaller than 1 MB.");
+      return;
+    }
+
+    setFaviconFile(selected);
+    setFaviconPreview(URL.createObjectURL(selected));
+    setError("");
+    setMessage("");
+  }
+
+  async function saveSiteTitle(event) {
+    event.preventDefault();
+
+    const title = siteTitle.trim();
+    if (!title || title.length > 150) {
+      setError("Website title must contain 1 to 150 characters.");
+      return;
+    }
+
+    setBusy("title");
+    setError("");
+    setMessage("");
+
+    try {
+      await adminRequest("/settings", {
+        method: "PATCH",
+        body: JSON.stringify({ siteTitle: title }),
+      });
+
+      document.title = title;
+      setMessage("Website title updated successfully.");
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function saveFavicon() {
+    if (!faviconFile) {
+      setError("Please choose a favicon first.");
+      return;
+    }
+
+    setBusy("favicon");
+    setError("");
+    setMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("image", faviconFile);
+
+      const response = await fetch(`${API_URL}/uploads/favicon`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${getAdminToken()}`,
+        },
+        body: formData,
+      });
+
+      const uploaded = await response.json();
+
+      if (!response.ok) {
+        throw new Error(uploaded.message || "Favicon upload failed.");
+      }
+
+      await adminRequest("/settings", {
+        method: "PATCH",
+        body: JSON.stringify({
+          favicon: uploaded.image,
+          faviconFileId: uploaded.fileId,
+        }),
+      });
+
+      let link = document.querySelector('link[rel="icon"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "icon";
+        document.head.appendChild(link);
+      }
+      link.href = uploaded.image;
+
+      setFaviconFile(null);
+      setMessage("Website favicon updated successfully.");
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function removeFavicon() {
+    if (!window.confirm("Remove the current website favicon?")) return;
+
+    setBusy("favicon-remove");
+    setError("");
+    setMessage("");
+
+    try {
+      await adminRequest("/settings", {
+        method: "PATCH",
+        body: JSON.stringify({
+          favicon: "",
+          faviconFileId: "",
+        }),
+      });
+
+      const link = document.querySelector('link[rel="icon"]');
+      if (link) link.href = "/favicon.svg";
+
+      setFaviconFile(null);
+      setMessage("Website favicon removed.");
       await load();
     } catch (err) {
       setError(err.message);
@@ -227,6 +365,83 @@ export default function Branding() {
                 {busy === "logo" ? "Uploading..." : "Save Logo"}
               </button>
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold">Browser Tab Title</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Set the title shown in your website browser tab.
+          </p>
+
+          <form onSubmit={saveSiteTitle} className="mt-5 space-y-4">
+            <input
+              type="text"
+              maxLength={150}
+              value={siteTitle}
+              onChange={event => setSiteTitle(event.target.value)}
+              className="w-full rounded-lg border border-slate-300 p-3"
+              placeholder="VC Tech | Gadgets & Electronics"
+            />
+
+            <button
+              type="submit"
+              disabled={Boolean(busy)}
+              className="rounded-lg bg-orange-500 px-6 py-3 font-bold text-white disabled:opacity-40"
+            >
+              {busy === "title" ? "Saving..." : "Save Website Title"}
+            </button>
+          </form>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold">Website Favicon</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Upload the small icon shown in browser tabs.
+            Recommended size: 512 × 512 pixels.
+          </p>
+
+          <div className="mt-5 flex h-28 w-28 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4">
+            {faviconPreview ? (
+              <img
+                src={faviconPreview}
+                alt="Favicon preview"
+                className="max-h-full max-w-full object-contain"
+              />
+            ) : (
+              <span className="text-xs text-slate-400">No favicon</span>
+            )}
+          </div>
+
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            onChange={chooseFavicon}
+            className="mt-5 block w-full rounded-lg border border-slate-300 p-3"
+          />
+
+          <p className="mt-2 text-xs text-slate-500">
+            PNG, JPG or WebP. Maximum 1 MB.
+          </p>
+
+          <div className="mt-5 flex flex-wrap justify-between gap-3">
+            <button
+              type="button"
+              onClick={removeFavicon}
+              disabled={Boolean(busy) || !settings.favicon}
+              className="rounded-lg border border-red-200 px-5 py-3 font-semibold text-red-600 disabled:opacity-40"
+            >
+              Remove Favicon
+            </button>
+
+            <button
+              type="button"
+              onClick={saveFavicon}
+              disabled={Boolean(busy) || !faviconFile}
+              className="rounded-lg bg-orange-500 px-6 py-3 font-bold text-white disabled:opacity-40"
+            >
+              {busy === "favicon" ? "Uploading..." : "Save Favicon"}
+            </button>
           </div>
         </section>
 
