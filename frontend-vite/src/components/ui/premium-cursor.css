@@ -1,0 +1,58 @@
+.vc-cursor-dot,
+.vc-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+.vc-cursor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f97316;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.45);
+}
+
+.vc-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(249, 115, 22, 0.8);
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.04);
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    opacity 150ms ease;
+}
+
+.vc-cursor-ring.vc-cursor-hover {
+  width: 54px;
+  height: 54px;
+  background: rgba(249, 115, 22, 0.12);
+  border-color: #f97316;
+}
+
+.vc-cursor-ring.vc-cursor-click {
+  width: 24px;
+  height: 24px;
+  background: rgba(249, 115, 22, 0.2);
+}
+
+.vc-cursor-ring.vc-cursor-text,
+.vc-cursor-dot.vc-cursor-text {
+  opacity: 0 !important;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .vc-cursor-dot,
+  .vc-cursor-ring {
+    display: none !important;
+  }
+}

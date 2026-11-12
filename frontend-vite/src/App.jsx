@@ -1,3 +1,5 @@
+import PremiumCursor from "./components/ui/PremiumCursor";
+import "./components/ui/premium-cursor.css";
 import AdminBranding from "./pages/admin/Branding";
 import AdminBanners from "./pages/admin/Banners";
 import MetaMarketing from "./pages/admin/MetaMarketing";
@@ -23,6 +25,7 @@ import About from "./pages/About";
 export default function App() {
   return (
     <BrowserRouter>
+      <PremiumCursor />
       <CartProvider>
         <Routes>
           <Route path="/" element={<Home />} />
