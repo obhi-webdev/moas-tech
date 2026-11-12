@@ -38,7 +38,7 @@ function AboutPage() {
               </Link>
 
               <a
-    href="https://wa.me/8809696492358"
+    href="https://wa.me/+8801737092358"
     target="_blank"
     rel="noopener noreferrer"
     className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700 transition hover:bg-slate-50"
@@ -154,7 +154,7 @@ function AboutPage() {
             </p>
 
             <a
-    href="https://wa.me/8809696492358"
+    href="https://wa.me/+8801737092358"
     target="_blank"
     rel="noopener noreferrer"
     className="mt-7 inline-flex rounded-xl bg-white px-7 py-3.5 font-bold text-blue-700 transition hover:bg-slate-100"
