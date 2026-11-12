@@ -120,7 +120,9 @@ export async function createOrder(data) {
         }
 
         const price = Number(
-          product.salePrice != null && product.salePrice > 0
+          product.salePrice != null &&
+          product.salePrice > 0 &&
+          product.salePrice < product.regularPrice
             ? product.salePrice
             : product.regularPrice
         );

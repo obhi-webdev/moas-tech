@@ -10,6 +10,7 @@ import {
   listAdminProducts,
   getProduct,
   getAdminProduct,
+  getPublicProductById,
 } from "./product.controller.js";
 
 import { requireAuth } from "../../middlewares/auth.middleware.js";
@@ -32,6 +33,8 @@ router.get(
   requireAdmin,
   getAdminProduct
 );
+
+router.get("/by-id/:id", getPublicProductById);
 
 router.get("/:slug", getProduct);
 

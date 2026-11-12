@@ -30,6 +30,11 @@ const navigation = [
     icon: "▧",
   },
   {
+    name: "Landing Pages",
+    href: "/admin/landing-pages",
+    icon: "▣",
+  },
+  {
     name: "Branding",
     href: "/admin/branding",
     icon: "◈",

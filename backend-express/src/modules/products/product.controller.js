@@ -39,3 +39,28 @@ export async function getAdminProduct(req, res, next) {
     next(error);
   }
 }
+
+
+export async function getPublicProductById(req, res, next) {
+  try {
+    const id = req.params.id;
+
+    if (!/^[a-fA-F0-9]{24}$/.test(id)) {
+      return res.status(404).json({
+        message: "Product not found"
+      });
+    }
+
+    const product = await findProductById(id);
+
+    if (!product || !product.isActive) {
+      return res.status(404).json({
+        message: "Product not found"
+      });
+    }
+
+    return res.json(product);
+  } catch (error) {
+    next(error);
+  }
+}

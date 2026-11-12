@@ -1,3 +1,5 @@
+import LandingPage from "./pages/LandingPage";
+import AdminLandingPages from "./pages/admin/LandingPages";
 import PremiumCursor from "./components/ui/PremiumCursor";
 import "./components/ui/premium-cursor.css";
 import AdminBranding from "./pages/admin/Branding";
@@ -37,6 +39,7 @@ export default function App() {
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/orders/track" element={<OrderTracking />} />
           <Route path="/about" element={<About />} />
+          <Route path="/lp/:slug" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -45,6 +48,7 @@ export default function App() {
         <Route path="/admin/branding" element={<AdminBranding />} />
         <Route path="/admin/meta-marketing" element={<MetaMarketing />} />
         <Route path="/admin/banners" element={<AdminBanners />} />
+                  <Route path="/admin/landing-pages" element={<AdminLandingPages />} />
         <Route path="/admin/:section" element={<AdminSection />} />
         <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
