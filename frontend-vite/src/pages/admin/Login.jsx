@@ -26,7 +26,7 @@ export default function AdminLogin() {
 
       saveAdminToken(data.accessToken);
 
-      await adminRequest("/auth/admin-check");
+      await adminRequest("/products/admin/all");
 
       navigate("/admin", { replace: true });
     } catch (err) {

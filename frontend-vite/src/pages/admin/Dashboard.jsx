@@ -48,7 +48,7 @@ export default function AdminDashboardPage() {
       }
 
       try {
-        await adminRequest("/auth/admin-check");
+        await adminRequest("/products/admin/all");
 
         const [productResult, orderResult] = await Promise.all([
           adminRequest("/products/admin/all"),
