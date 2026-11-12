@@ -1,5 +1,14 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5003/api";
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5003";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV
+    ? "/api"
+    : "https://api.vctechbd.com/api");
+
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  (import.meta.env.DEV
+    ? "http://localhost:5002"
+    : "https://api.vctechbd.com");
 async function request(endpoint, options = {}) {
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
